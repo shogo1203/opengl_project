@@ -92,11 +92,11 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\shogo\Downloads\glfw\glew_build\include\GL;C:\Users\shogo\Downloads\glfw\glfw_build\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\opengl\glfw_install\include\GLFW;D:\opengl\glew_install\include\GL;C:\Users\shogo\Downloads\glfw\glew_build\include\GL;C:\Users\shogo\Downloads\glfw\glfw_build\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>C:\Users\shogo\Downloads\glfw\glew_build\lib;C:\Users\shogo\Downloads\glfw\glfw_build\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\opengl\glew_install\lib;D:\opengl\glfw_install\lib;C:\Users\shogo\Downloads\glfw\glew_build\lib;C:\Users\shogo\Downloads\glfw\glfw_build\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;libglew32d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -127,19 +127,29 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\shogo\Downloads\glfw\glew_build\include\GL;C:\Users\shogo\Downloads\glfw\glfw_build\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\opengl\glfw_install\include\GLFW;D:\opengl\glew_install\include\GL;C:\Users\shogo\Downloads\glfw\glew_build\include\GL;C:\Users\shogo\Downloads\glfw\glfw_build\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Users\shogo\Downloads\glfw\glew_build\lib;C:\Users\shogo\Downloads\glfw\glfw_build\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\opengl\glew_install\lib;D:\opengl\glfw_install\lib;C:\Users\shogo\Downloads\glfw\glew_build\lib;C:\Users\shogo\Downloads\glfw\glfw_build\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;libglew32d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="VertexArrayObject.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="point.frag" />
+    <None Include="point.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Shape.h" />
+    <ClInclude Include="VertexArrayObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
