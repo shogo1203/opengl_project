@@ -5,7 +5,9 @@
 #include <vector>
 #include <fstream>
 #include <memory>
-#include "Shape.h"
+#include "shape.h"
+#include "window.h"
+#include "matrix.h"
 
 constexpr VertexArrayObject::Vertex rectangleVertex[] =
 {
@@ -13,7 +15,6 @@ constexpr VertexArrayObject::Vertex rectangleVertex[] =
 	{0.5f, -0.5f},
 	{0.5f, 0.5f},
 	{-0.5f, 0.5f}
-
 };
 
 // プログラムオブジェクトのリンク結果を表示する
@@ -78,7 +79,7 @@ GLboolean PrintShaderInfoLog(GLuint shader, const char* str)
 GLuint CreateProgram(const char* v_src, const char* f_src) {
 	const GLuint program(glCreateProgram());		// 空のプログラムオブジェクトを作成する
 
-	if (v_src != NULL) {
+	if (v_src != nullptr) {
 		// バーテックスシェーダのシェーダオブジェクトを作成する
 		const GLuint v_obj(glCreateShader(GL_VERTEX_SHADER));
 		glShaderSource(v_obj, 1, &v_src, NULL);
@@ -92,7 +93,7 @@ GLuint CreateProgram(const char* v_src, const char* f_src) {
 		glDeleteShader(v_obj);
 	}
 
-	if (f_src != NULL) {
+	if (f_src != nullptr) {
 		// フラグメントシェーダのシェーダオブジェクトを作成する
 		const GLuint f_obj(glCreateShader(GL_FRAGMENT_SHADER));
 		glShaderSource(f_obj, 1, &f_src, NULL);
@@ -127,7 +128,7 @@ GLuint CreateProgram(const char* v_src, const char* f_src) {
 // buffer: 読み込んだソースファイルのテキスト
 bool ReadShaderSource(const char* name, std::vector<GLchar>& buffer)
 {
-	if (name == NULL)
+	if (name == nullptr)
 	{
 		return false;
 	}
@@ -190,38 +191,45 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	// monitor: フルスクリーンモードにするモニタを指定、フルスクリーンモードでなければNULLを指定する
-	// share: 他のwindowのハンドルを指定すれば、そのウィンドウとテクスチャなどのリソースを共有します。NULLを指定すればリソースの共有は行わない
-	GLFWwindow* const window(glfwCreateWindow(640, 480, "Hello", NULL, NULL));
-
-	if (window == NULL) {
-		std::cerr << "failed create GLFW window" << std::endl;
-		return 0;
-	}
-
-	glfwMakeContextCurrent(window);		//作成したウィンドウをOpenGLの処理対象にする
-
-	glewExperimental = GL_TRUE;    //プラットフォームではサポートされていないOpenGLの機能を有効にし、プログラムから呼び出せるようにする
-	if (glewInit() != GLEW_OK) {
-		std::cerr << "failed to initialzie GLEW" << std::endl;
-	}
+	Window window;
 
 	glfwSwapInterval(1);	//垂直同期のタイミングを待つ
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);    //ウィンドウの背景色を設定
 
+	glViewport(100, 50, 300, 300);    // ビューポートを設定する
+
 	const GLuint program(LoadProgram("point.vert", "point.frag"));    // プログラムオブジェクトを作成
+
+	// uniform変数の場所を取得する
+	const GLuint model_view_unifrom_location(glGetUniformLocation(program, "modelview"));
 
 	std::unique_ptr<const Shape> shape(new Shape(2, 4, rectangleVertex));
 
-	while (glfwWindowShouldClose(window) == GL_FALSE) {
+	while (window.IsOpenWindow()) {
 		glClear(GL_COLOR_BUFFER_BIT);		// ウィンドウを削除する
 
 		glUseProgram(program);	// シェーダプログラムの使用開始
 
+		//拡大縮小の変換行列を求める
+		const GLfloat* const size(window.GetSize());
+		const GLfloat  scale(window.GetScale() * 2.0f);
+		const Matrix scaling(Matrix::Scale(scale / size[0], scale / size[1], 1.0f));
+
+		// 並行移動の変換行列を求める
+		const GLfloat* const position(window.GetLocation());
+		const Matrix translation(Matrix::Translate(position[0], position[1], 0.0f));
+
+		const Matrix model(translation * scaling);    // モデル変換行列を求める
+		const Matrix view(Matrix::LookAt(0.0f, 0.0f, 0.0f, -1.0f, -1.0f, -1.0f, 0.0f, 1.0f, 0.0f));    // ビュー変換行列を求める
+		const Matrix model_view(view * model);    // モデルビュー変換行列を求める
+
+		// uniform変数に値を設定する
+		glUniformMatrix4fv(model_view_unifrom_location, 1, GL_FALSE, model_view.GetMatrix());
+
 		//描画処理
 		shape->Draw();
 
-		glfwSwapBuffers(window);	//カラーバッファを入れ替える
+		window.SwapBuffers();
 		glfwWaitEvents();		//イベントを取り出す
 	}
 	return 0;

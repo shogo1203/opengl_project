@@ -13,9 +13,9 @@ public:
 	virtual void Execute() const;
 
 protected:
-	const GLsizei vertex_count;    // 描画に使う頂点の数
+	const GLsizei vertex_count_;    // 描画に使う頂点の数
 
 private:
-	std::shared_ptr<const VertexArrayObject> vertex_array_object;    // 図形データ
+	std::shared_ptr<const VertexArrayObject> vertex_array_object_;    // 図形データ
 };
 
