@@ -15,6 +15,9 @@ public:
 	static Matrix Scale(GLfloat x, GLfloat y, GLfloat z);    // (x, y, z)”{‚ÉŠg‘åk¬‚·‚é•ÏŠ·s—ñ‚ğì¬‚·‚é
 	static Matrix Rotate(GLfloat angle, GLfloat x, GLfloat y, GLfloat z);    // (x, y, z)‚ğ²‚Éangle‚Ì”’l‚¾‚¯‰ñ“]‚·‚é•ÏŠ·s—ñ‚ğì¬‚·‚é
 	static Matrix LookAt(GLfloat ex, GLfloat ey, GLfloat ez, GLfloat gx, GLfloat gy, GLfloat gz, GLfloat ux, GLfloat uy, GLfloat uz);    // ƒrƒ…[•ÏŠ·s—ñ‚ğì¬‚·‚é
+	static Matrix Orthogonal(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat z_near, GLfloat z_far);    // ’¼Œğ“Š‰e•ÏŠ·s—ñ‚ğì¬‚·‚é
+	static Matrix Frustum(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat z_near, GLfloat z_far);    // “§‹“Š‰e•ÏŠ·s—ñ
+	static Matrix Perspective(GLfloat fovy, GLfloat aspect, GLfloat z_near, GLfloat z_far);    // ‰æŠp‚ğŒ³‚É“§‹“Š‰es—ñ‚ğì¬‚·‚é
 
 	Matrix operator * (const Matrix& m) const;
 

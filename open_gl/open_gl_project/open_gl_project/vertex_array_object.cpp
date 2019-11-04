@@ -1,6 +1,6 @@
-#include "VertexArrayObject.h"
+#include "vertex_array_object.h"
 
-VertexArrayObject::VertexArrayObject(GLint size, GLsizei vertex_count, const Vertex* vertex)
+VertexArrayObject::VertexArrayObject(GLint size, GLsizei vertex_count, const Vertex* vertex, GLsizei index_count, const GLuint* index)
 {
 	glGenVertexArrays(1, &vertex_array_object_);
 	glBindVertexArray(vertex_array_object_);
@@ -12,12 +12,18 @@ VertexArrayObject::VertexArrayObject(GLint size, GLsizei vertex_count, const Ver
 	// 結合されている頂点バッファオブジェクトを in 変数から参照できるようにする
 	glVertexAttribPointer(0, size, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(0);
+
+	// インデックスの頂点バッファオブジェクト
+	glGenBuffers(1, &index_buffer_object_);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer_object_);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_count * sizeof(GLuint), index, GL_STATIC_DRAW);
 }
 
 VertexArrayObject::~VertexArrayObject()
 {
 	glDeleteVertexArrays(1, &vertex_array_object_);
 	glDeleteBuffers(1, &vertex_buffer_object_);
+	glDeleteBuffers(1, &index_buffer_object_);
 }
 
 void VertexArrayObject::Bind() const

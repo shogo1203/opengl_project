@@ -122,6 +122,67 @@ Matrix Matrix::LookAt(GLfloat ex, GLfloat ey, GLfloat ez, GLfloat gx, GLfloat gy
 	return rv * tv;
 }
 
+Matrix Matrix::Orthogonal(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat z_near, GLfloat z_far)
+{
+	Matrix matrix;
+	const GLfloat dx(right - left);
+	const GLfloat dy(top - bottom);
+	const GLfloat dz(z_far - z_near);
+
+	if (dx != 0.0f && dy != 0.0f && dz != 0.0f)
+	{
+		matrix.LoadIdentity();
+		matrix.matrix_[0] = 2.0f / dx;
+		matrix.matrix_[5] = 2.0f / dy;
+		matrix.matrix_[10] = -2.0f / dz;
+		matrix.matrix_[12] = -(right + left) / dx;
+		matrix.matrix_[13] = -(top + bottom) / dy;
+		matrix.matrix_[14] = -(z_far + z_near) / dz;
+	}
+
+	return matrix;
+}
+
+Matrix Matrix::Frustum(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat z_near, GLfloat z_far)
+{
+	Matrix matrix;
+	const GLfloat dx(right - left);
+	const GLfloat dy(top - bottom);
+	const GLfloat dz(z_far - z_near);
+
+	if (dx != 0.0f && dy != 0.0f && dz != 0.0f)
+	{
+		matrix.LoadIdentity();
+		matrix.matrix_[0] = 2.0f * z_near / dx;
+		matrix.matrix_[5] = 2.0f * z_near / dy;
+		matrix.matrix_[8] = (right + left) / dx;
+		matrix.matrix_[9] = (top + bottom) / dy;
+		matrix.matrix_[10] = -(z_far + z_near) / dz;
+		matrix.matrix_[11] = -1.0f;
+		matrix.matrix_[14] = -2.0f * z_far * z_near / dz;
+		matrix.matrix_[15] = 0.0f;
+	}
+	return matrix;
+}
+
+Matrix Matrix::Perspective(GLfloat fovy, GLfloat aspect, GLfloat z_near, GLfloat z_far)
+{
+	Matrix matrix;
+	const GLfloat dz(z_far - z_near);
+
+	if (dz != 0.0f)
+	{
+		matrix.LoadIdentity();
+		matrix.matrix_[5] = 1.0f / tan(fovy * 0.5f);
+		matrix.matrix_[0] = matrix.matrix_[5] / aspect;
+		matrix.matrix_[10] = -(z_far + z_near) / dz;
+		matrix.matrix_[11] = -1.0f;
+		matrix.matrix_[14] = -2.0f * z_far * z_near / dz;
+		matrix.matrix_[15] = 0.0f;
+	}
+	return matrix;
+}
+
 Matrix Matrix::operator*(const Matrix& m) const
 {
 	Matrix matrix;

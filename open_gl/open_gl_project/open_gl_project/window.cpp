@@ -61,21 +61,23 @@ bool Window::IsOpenWindow()
 		location_[1] = 1.0f - static_cast<GLfloat>(y) * 2.0f / size_[1];
 	}
 
+	const float speed = 100.0f;
+
 	if (IsDownKey(GLFW_KEY_LEFT) != GLFW_RELEASE)
 	{
-		location_[0] -= 2.0f / size_[0];
+		location_[0] -= speed / size_[0];
 	}
 	else if (IsDownKey(GLFW_KEY_RIGHT) != GLFW_RELEASE)
 	{
-		location_[0] += 2.0f / size_[0];
+		location_[0] += speed / size_[0];
 	}
 	else if (IsDownKey(GLFW_KEY_DOWN) != GLFW_RELEASE)
 	{
-		location_[1] -= 2.0f / size_[1];
+		location_[1] -= speed / size_[1];
 	}
 	else if (IsDownKey(GLFW_KEY_UP) != GLFW_RELEASE)
 	{
-		location_[1] += 2.0f / size_[1];
+		location_[1] += speed / size_[1];
 	}
 	return !glfwWindowShouldClose(window_) && !IsDownKey(GLFW_KEY_ESCAPE);
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "VertexArrayObject.h"
+#include "vertex_array_object.h"
 
 class Shape
 {
@@ -8,7 +8,7 @@ public:
 	// size: 頂点の位置の次元
 	// vertex_count: 頂点の数
 	// vertex: 頂点属性を格納した配列
-	Shape(GLint size, GLsizei vertex_count, const VertexArrayObject::Vertex* vertex);
+	Shape(GLint size, GLsizei vertex_count, const Vertex* vertex, GLsizei index_count = 0, const GLuint* index = nullptr);
 	void Draw() const;
 	virtual void Execute() const;
 

@@ -1,7 +1,7 @@
 #include "shape.h"
 
-Shape::Shape(GLint size, GLsizei vertex_count, const VertexArrayObject::Vertex* vertex):
-	vertex_array_object_(new VertexArrayObject(size, vertex_count, vertex)),
+Shape::Shape(GLint size, GLsizei vertex_count, const Vertex* vertex, GLsizei index_count, const GLuint* index) :
+	vertex_array_object_(new VertexArrayObject(size, vertex_count, vertex, index_count, index)),
 	vertex_count_(vertex_count)
 {
 }
