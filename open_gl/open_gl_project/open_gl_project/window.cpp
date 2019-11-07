@@ -30,6 +30,16 @@ Window::Window(int width, int height, const char* title) :
 	glfwSetKeyCallback(window_, Keyboard);
 
 	Resize(window_, width, height);    // 開いたウィンドウの初期設定
+
+	//	カリング設定
+	glFrontFace(GL_CCW);
+	glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE);
+
+	// デプスバッファの設定
+	glClearDepth(1.0f);
+	glDepthFunc(GL_LESS);
+	glEnable(GL_DEPTH_TEST);
 }
 
 Window::~Window()
@@ -39,46 +49,35 @@ Window::~Window()
 
 bool Window::IsOpenWindow()
 {
-	// イベントを取り出す
-	if (key_status_ == GLFW_RELEASE)
-	{
-		glfwWaitEvents();
-	}
-	else
-	{
-		glfwPollEvents();
-	}
+	//if (glfwGetMouseButton(window_, GLFW_MOUSE_BUTTON_1) != GLFW_RELEASE)
+	//{
+	//	// マウスカーソルの位置を取得する
+	//	double x, y;
+	//	glfwGetCursorPos(window_, &x, &y);
 
+	//	// マウスカーソルの正規化デバイス座標系上での位置を求める
+	//	location_[0] = static_cast<GLfloat>(x) * 2.0f / size_[0] - 1.0f;
+	//	location_[1] = 1.0f - static_cast<GLfloat>(y) * 2.0f / size_[1];
+	//}
 
-	if (glfwGetMouseButton(window_, GLFW_MOUSE_BUTTON_1) != GLFW_RELEASE)
-	{
-		// マウスカーソルの位置を取得する
-		double x, y;
-		glfwGetCursorPos(window_, &x, &y);
+	//const float speed = 100.0f;
 
-		// マウスカーソルの正規化デバイス座標系上での位置を求める
-		location_[0] = static_cast<GLfloat>(x) * 2.0f / size_[0] - 1.0f;
-		location_[1] = 1.0f - static_cast<GLfloat>(y) * 2.0f / size_[1];
-	}
-
-	const float speed = 100.0f;
-
-	if (IsDownKey(GLFW_KEY_LEFT) != GLFW_RELEASE)
-	{
-		location_[0] -= speed / size_[0];
-	}
-	else if (IsDownKey(GLFW_KEY_RIGHT) != GLFW_RELEASE)
-	{
-		location_[0] += speed / size_[0];
-	}
-	else if (IsDownKey(GLFW_KEY_DOWN) != GLFW_RELEASE)
-	{
-		location_[1] -= speed / size_[1];
-	}
-	else if (IsDownKey(GLFW_KEY_UP) != GLFW_RELEASE)
-	{
-		location_[1] += speed / size_[1];
-	}
+	//if (IsDownKey(GLFW_KEY_LEFT) != GLFW_RELEASE)
+	//{
+	//	location_[0] -= speed / size_[0];
+	//}
+	//else if (IsDownKey(GLFW_KEY_RIGHT) != GLFW_RELEASE)
+	//{
+	//	location_[0] += speed / size_[0];
+	//}
+	//else if (IsDownKey(GLFW_KEY_DOWN) != GLFW_RELEASE)
+	//{
+	//	location_[1] -= speed / size_[1];
+	//}
+	//else if (IsDownKey(GLFW_KEY_UP) != GLFW_RELEASE)
+	//{
+	//	location_[1] += speed / size_[1];
+	//}
 	return !glfwWindowShouldClose(window_) && !IsDownKey(GLFW_KEY_ESCAPE);
 }
 

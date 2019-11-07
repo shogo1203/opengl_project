@@ -2,11 +2,7 @@
 
 #include <glew.h>
 #include <vector>
-
-struct Vertex
-{
-	GLfloat position[3];
-};
+#include "vertex.h"
 
 struct ModelData
 {

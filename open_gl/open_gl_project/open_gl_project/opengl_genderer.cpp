@@ -12,20 +12,22 @@ OpenGLRenderer::OpenGLRenderer(Shape* shape, const char* vert_path, const char* 
 void OpenGLRenderer::Initialize()
 {
 }
-
+float a = 0;
 void OpenGLRenderer::Draw()
 {
 	glUseProgram(program_);	// シェーダプログラムの使用開始
 
 	//拡大縮小の変換行列を求める
 	const GLfloat* const size(window_->GetSize());
-	const GLfloat fovy(window_->GetScale() * 0.01f);
+	const GLfloat fovy(window_->GetScale() * 0.3f);
 	const GLfloat aspect(size[0] / size[1]);
 	const Matrix projection(Matrix::Perspective(fovy, aspect, 1.0f, 10.0f));
 
 	const GLfloat* const location(window_->GetLocation());
-	const Matrix model(Matrix::Translate(location[0], location[1], 0.0f));    // モデル変換行列を求める
-	const Matrix view(Matrix::LookAt(3.0f, 4.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f));    // ビュー変換行列を求める
+	a += 0.1f;
+	const Matrix rotate(Matrix::Rotate(a, 0.0f, 1.0f, 0.0f));
+	const Matrix model(Matrix::Translate(location[0], location[1], 0.0f) * rotate);    // モデル変換行列を求める
+	const Matrix view(Matrix::LookAt(0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f));    // ビュー変換行列を求める
 	const Matrix model_view(view * model);    // モデルビュー変換行列を求める
 
 	// uniform変数に値を設定する
@@ -33,6 +35,8 @@ void OpenGLRenderer::Draw()
 	glUniformMatrix4fv(projection_uniform_location_, 1, GL_FALSE, projection.GetMatrix());
 
 	shape_->Draw();
+
+	glUseProgram(0);    // シェーダプログラムの使用終了
 }
 
 void OpenGLRenderer::Finalize()
@@ -128,6 +132,7 @@ GLuint OpenGLRenderer::CreateProgram(const char* v_src, const char* f_src)
 
 	// プログラムオブジェクトをリンクする
 	glBindAttribLocation(program, 0, "position");
+	glBindAttribLocation(program, 1, "color");
 	glBindFragDataLocation(program, 0, "fragment");
 	glLinkProgram(program);
 

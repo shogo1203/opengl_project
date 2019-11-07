@@ -29,35 +29,3 @@ private:
 	Shape* shape_;
 	Window* window_;
 };
-
-/*
-
-const GLuint program(LoadProgram("point.vert", "point.frag"));    // プログラムオブジェクトを作成
-
-// uniform変数の場所を取得する
-const GLuint model_view_unifrom_location(glGetUniformLocation(program, "modelview"));
-const GLuint projection_uniform_location(glGetUniformLocation(program, "projection"));
-
-std::unique_ptr<const Shape> shape(new ShapeIndex(3, 8, cube_vertex, 24, wireCubeIndex));
-
-
-		glUseProgram(program);	// シェーダプログラムの使用開始
-
-		//拡大縮小の変換行列を求める
-		const GLfloat* const size(window.GetSize());
-		const GLfloat fovy(window.GetScale() * 0.01f);
-		const GLfloat aspect(size[0] / size[1]);
-		const Matrix projection(Matrix::Perspective(fovy, aspect, 1.0f, 10.0f));
-
-		const GLfloat* const location(window.GetLocation());
-		const Matrix model(Matrix::Translate(location[0], location[1], 0.0f));    // モデル変換行列を求める
-		const Matrix view(Matrix::LookAt(3.0f, 4.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f));    // ビュー変換行列を求める
-		const Matrix model_view(view * model);    // モデルビュー変換行列を求める
-
-		// uniform変数に値を設定する
-		glUniformMatrix4fv(model_view_unifrom_location, 1, GL_FALSE, model_view.GetMatrix());
-		glUniformMatrix4fv(projection_uniform_location, 1, GL_FALSE, projection.GetMatrix());
-
-		//描画処理
-		shape->Draw();
-		*/

@@ -6,13 +6,12 @@
 class FbxLoader
 {
 public:
-	FbxLoader();
-	ModelData* Load(const char* path);
+	static ModelData* Load(const char* path);
 
 private:
-	void ExpandNode(FbxNode* node, ModelData* data);
-	void AddVertex(FbxNode* node, ModelData* data);
-	void ExpandPolygonVertices(FbxMesh* mesh, ModelData* data);
-	void AddPolygonVertex(FbxMesh *mesh, ModelData* data, int index_polygons);
+	static void ExpandNode(FbxNode* node, ModelData* data);
+	static void AddVertex(FbxNode* node, ModelData* data);
+	static void ExpandPolygonVertices(FbxMesh* mesh, ModelData* data);
+	static void AddPolygonVertex(FbxMesh* mesh, ModelData* data, int index_polygons);
 };
 

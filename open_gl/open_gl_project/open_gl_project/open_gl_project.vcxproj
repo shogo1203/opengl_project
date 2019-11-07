@@ -142,10 +142,14 @@
     <ClCompile Include="fbx_loader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="matrix.cpp" />
+    <ClCompile Include="object.cpp" />
     <ClCompile Include="obj_loader.cpp" />
     <ClCompile Include="opengl_genderer.cpp" />
+    <ClCompile Include="renderer.cpp" />
     <ClCompile Include="shape.cpp" />
-    <ClCompile Include="shape_index.cpp" />
+    <ClCompile Include="time.cpp" />
+    <ClCompile Include="utility.cpp" />
+    <ClCompile Include="vector3.cpp" />
     <ClCompile Include="vertex_array_object.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
@@ -157,11 +161,16 @@
     <ClInclude Include="fbx_loader.h" />
     <ClInclude Include="matrix.h" />
     <ClInclude Include="model_data.h" />
+    <ClInclude Include="object.h" />
     <ClInclude Include="obj_loader.h" />
     <ClInclude Include="opengl_genderer.h" />
+    <ClInclude Include="renderer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="shape.h" />
-    <ClInclude Include="shape_index.h" />
+    <ClInclude Include="time.h" />
+    <ClInclude Include="utility.h" />
+    <ClInclude Include="vector3.h" />
+    <ClInclude Include="vertex.h" />
     <ClInclude Include="vertex_array_object.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>

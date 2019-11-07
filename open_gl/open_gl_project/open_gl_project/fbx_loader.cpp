@@ -1,9 +1,5 @@
 #include "fbx_loader.h"
 
-FbxLoader::FbxLoader()
-{
-}
-
 ModelData* FbxLoader::Load(const char* path)
 {
 	FbxManager* manager = FbxManager::Create();
@@ -23,12 +19,48 @@ ModelData* FbxLoader::Load(const char* path)
 	FbxGeometryConverter geometry_converter(manager);
 	geometry_converter.Triangulate(scene, true);
 
-	FbxMesh* mesh = nullptr;
-
 	FbxNode* fbx_node = scene->GetRootNode();
 	ModelData* model_data = new ModelData();
 
-	ExpandNode(fbx_node, model_data);
+	int mesh_count = scene->GetSrcObjectCount<FbxMesh>();
+
+	for (int i = 0; i < mesh_count; i++)
+	{
+		FbxMesh* mesh = scene->GetSrcObject<FbxMesh>(i);
+
+		int control_points_count = mesh->GetControlPointsCount();
+		model_data->vertices_count += control_points_count;
+
+		FbxLayer* layer = mesh->GetLayer(i);
+
+		float a = 0.5f;
+		for (int i = 0; i < control_points_count; i++)
+		{
+			if ((i % 2) == 0) {
+				a = 1;
+			}
+			else {
+				a = 0;
+			}
+			FbxVector4 control_point = mesh->GetControlPointAt(i);
+			Vertex vertex;
+			vertex.position[0] = static_cast<GLfloat>(control_point[0]);
+			vertex.position[1] = static_cast<GLfloat>(control_point[1]);
+			vertex.position[2] = static_cast<GLfloat>(control_point[2]);
+
+			vertex.color[0] = a;
+			vertex.color[1] = a;
+			vertex.color[2] = a;
+			model_data->vertices.push_back(vertex);
+
+			//std::cout << "x" << control_point[0] << std::endl;
+			//std::cout << "y" << control_point[1] << std::endl;
+			//std::cout << "z" << control_point[2] << std::endl;
+		}
+
+		ExpandPolygonVertices(mesh, model_data);
+	}
+	//ExpandNode(fbx_node, model_data);
 
 	manager->Destroy();
 
@@ -56,7 +88,7 @@ void FbxLoader::AddVertex(FbxNode* node, ModelData* data)
 	{
 		return;
 	}
-	std::cout << node->GetName() << std::endl;
+	//std::cout << node->GetName() << std::endl;
 
 	FbxMesh* mesh = node->GetMesh();
 
@@ -68,9 +100,9 @@ void FbxLoader::AddVertex(FbxNode* node, ModelData* data)
 		FbxVector4 control_point = mesh->GetControlPointAt(i);
 		data->vertices.push_back({ static_cast<GLfloat>(control_point[0]), static_cast<GLfloat>(control_point[1]), static_cast<GLfloat>(control_point[2]) });
 
-		std::cout << "x" << control_point[0] << std::endl;
-		std::cout << "y" << control_point[1] << std::endl;
-		std::cout << "z" << control_point[2] << std::endl;
+		//std::cout << "x" << control_point[0] << std::endl;
+		//std::cout << "y" << control_point[1] << std::endl;
+		//std::cout << "z" << control_point[2] << std::endl;
 	}
 
 	ExpandPolygonVertices(mesh, data);
@@ -94,7 +126,7 @@ void FbxLoader::AddPolygonVertex(FbxMesh* mesh, ModelData* data, int index_polyg
 	{
 		data->indices_count++;
 		int index = mesh->GetPolygonVertex(index_polygons, i);
-		std::cout << "index" << index << std::endl;
+		//std::cout << "index" << index << std::endl;
 		data->indices.push_back(index);
 	}
 }

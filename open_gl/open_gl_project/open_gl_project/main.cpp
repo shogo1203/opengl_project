@@ -6,11 +6,10 @@
 #include <fstream>
 #include <memory>
 #include "window.h"
-#include "shape_index.h"
 #include "model_data.h"
-#include "opengl_genderer.h"
-#include "fbx_loader.h"
-#include <ObjectArray.h>
+#include "renderer.h"
+#include "time.h"
+#include "vector3.h"
 
 // 六面体の頂点の位置
 constexpr Vertex cube_vertex[] =
@@ -59,24 +58,28 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	Window window;
+	Renderer* renderer = new Renderer("cube.fbx", "point.vert", "point.frag", &window);
 
 	glfwSwapInterval(1);	//垂直同期のタイミングを待つ
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);    //ウィンドウの背景色を設定
 
 	glViewport(100, 50, 640, 480);    // ビューポートを設定する
-	FbxLoader loader;
 
-	ModelData* data = loader.Load("cube.fbx");
-
-	OpenGLRenderer* renderer = new OpenGLRenderer(new ShapeIndex(3, data->vertices_count, data->vertices.data(), data->indices_count, data->indices.data()), "point.vert", "point.frag", &window);
+	Time::Initialize();
 
 	while (window.IsOpenWindow()) {
-		glClear(GL_COLOR_BUFFER_BIT);		// ウィンドウを削除する
+
+		glfwPollEvents();
+		Time::Update();
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		// ウィンドウを削除する
 
 		//描画処理
 		renderer->Draw();
+
 		window.SwapBuffers();
-		glfwWaitEvents();		//イベントを取り出す
 	}
+
+	renderer->Finalize();
 	return 0;
 }
