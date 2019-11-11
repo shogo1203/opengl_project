@@ -65,6 +65,7 @@
     <None Include="point.frag">
       <Filter>ソース ファイル</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="window.h">

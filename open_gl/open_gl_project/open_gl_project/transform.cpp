@@ -1,12 +1,11 @@
 #include "transform.h"
 
 Transform::Transform() :
-	Transform(Vector3(), Vector3(1, 1, 1), Vector3())
+	Transform(glm::vec3(), glm::vec3(1, 1, 1), glm::vec3())
 {
-
 }
 
-Transform::Transform(Vector3 position, Vector3 scale, Vector3 rotation) :
+Transform::Transform(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) :
 	position_(position),
 	scale_(scale),
 	rotation_(rotation)
@@ -14,10 +13,17 @@ Transform::Transform(Vector3 position, Vector3 scale, Vector3 rotation) :
 
 }
 
-void Transform::Rotate(float angle, float x, float y, float z)
+glm::vec3 Transform::GetPosition() const
 {
-	if (angle < 0) {
-		return;
-	}
+	return position_;
 }
 
+glm::vec3 Transform::GetScale() const
+{
+	return scale_;
+}
+
+glm::vec3 Transform::GetRotation() const
+{
+	return rotation_;
+}

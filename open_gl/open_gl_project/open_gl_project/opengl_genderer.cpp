@@ -15,6 +15,7 @@ void OpenGLRenderer::Initialize()
 float a = 0;
 void OpenGLRenderer::Draw()
 {
+	std::printf("1");
 	glUseProgram(program_);	// シェーダプログラムの使用開始
 
 	//拡大縮小の変換行列を求める

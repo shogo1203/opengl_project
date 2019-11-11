@@ -34,7 +34,7 @@ Quaternion::Quaternion(float x, float y, float z, float w) :
 Vector3 Quaternion::Euler()
 {
 	Vector3 euler;
-
+	
 	float x = x_ * x_;
 	float xy = x_ * y_;
 	float xz = x_ * z_;

@@ -66,7 +66,6 @@ int main() {
 	glViewport(100, 50, 640, 480);    // ビューポートを設定する
 
 	Time::Initialize();
-
 	while (window.IsOpenWindow()) {
 
 		glfwPollEvents();
