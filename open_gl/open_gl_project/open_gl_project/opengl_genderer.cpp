@@ -24,7 +24,7 @@ void OpenGLRenderer::Draw()
 	const Matrix projection(Matrix::Perspective(fovy, aspect, 1.0f, 10.0f));
 
 	const GLfloat* const location(window_->GetLocation());
-	a += 0.1f;
+	a += 0.01f;
 	const Matrix rotate(Matrix::Rotate(a, 0.0f, 1.0f, 0.0f));
 	const Matrix model(Matrix::Translate(location[0], location[1], 0.0f) * rotate);    // モデル変換行列を求める
 	const Matrix view(Matrix::LookAt(0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f));    // ビュー変換行列を求める

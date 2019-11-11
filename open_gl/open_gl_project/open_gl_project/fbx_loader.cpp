@@ -51,6 +51,7 @@ ModelData* FbxLoader::Load(const char* path)
 			vertex.color[0] = a;
 			vertex.color[1] = a;
 			vertex.color[2] = a;
+			vertex.color[3] = 0.1f;
 			model_data->vertices.push_back(vertex);
 
 			//std::cout << "x" << control_point[0] << std::endl;
