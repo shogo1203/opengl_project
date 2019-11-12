@@ -12,18 +12,3 @@ Transform::Transform(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) :
 {
 
 }
-
-glm::vec3 Transform::GetPosition() const
-{
-	return position_;
-}
-
-glm::vec3 Transform::GetScale() const
-{
-	return scale_;
-}
-
-glm::vec3 Transform::GetRotation() const
-{
-	return rotation_;
-}

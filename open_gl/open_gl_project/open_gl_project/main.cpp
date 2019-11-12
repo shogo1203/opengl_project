@@ -10,6 +10,8 @@
 #include "renderer.h"
 #include "time.h"
 #include "vector3.h"
+#include "camera.h"
+#include "transform.h"
 
 // 六面体の頂点の位置
 constexpr Vertex cube_vertex[] =
@@ -58,7 +60,10 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	Window window;
-	Renderer* renderer = new Renderer("shpere.fbx", "point.vert", "point.frag", &window);
+	Camera camera;
+	camera.window_ = &window;
+	Transform transform;
+	Renderer* renderer = new Renderer("shpere.fbx", "point.vert", "point.frag", &window, &transform);
 
 	glfwSwapInterval(1);	//垂直同期のタイミングを待つ
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);    //ウィンドウの背景色を設定
