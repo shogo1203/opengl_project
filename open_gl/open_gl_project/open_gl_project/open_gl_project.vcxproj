@@ -77,7 +77,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\shogo\Downloads\glfw\glew_build\include\GL;C:\Users\shogo\Downloads\glfw\glfw_build\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\include;C:\Users\shogo\Downloads\glfw\glew_build\include\GL;C:\Users\shogo\Downloads\glfw\glfw_build\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -92,7 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\include;D:\opengl\glfw_install\include\GLFW;D:\opengl\glew_install\include\GL;C:\Users\shogo\Downloads\glfw\glew_build\include\GL;C:\Users\shogo\Downloads\glfw\glfw_build\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\include;C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\include;D:\opengl\glfw_install\include\GLFW;D:\opengl\glew_install\include\GL;C:\Users\shogo\Downloads\glfw\glew_build\include\GL;C:\Users\shogo\Downloads\glfw\glfw_build\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -108,7 +108,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\shogo\Downloads\glfw\glew_build\include\GL;C:\Users\shogo\Downloads\glfw\glfw_build\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\include;C:\Users\shogo\Downloads\glfw\glew_build\include\GL;C:\Users\shogo\Downloads\glfw\glfw_build\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -127,7 +127,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\include;D:\opengl\glfw_install\include\GLFW;D:\opengl\glew_install\include\GL;C:\Users\shogo\Downloads\glfw\glew_build\include\GL;C:\Users\shogo\Downloads\glfw\glfw_build\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\include;C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\include;D:\opengl\glfw_install\include\GLFW;D:\opengl\glew_install\include\GL;C:\Users\shogo\Downloads\glfw\glew_build\include\GL;C:\Users\shogo\Downloads\glfw\glfw_build\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
