@@ -17,6 +17,7 @@ public:
 	const GLfloat GetScale() const;
 	const GLfloat* GetLocation() const;
 	const int IsDownKey(int key) const;
+	const float GetAspect() const;
 
 private:
 	GLFWwindow* const window_;    // ウィンドウのハンドル

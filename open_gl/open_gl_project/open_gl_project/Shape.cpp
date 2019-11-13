@@ -14,12 +14,11 @@ Shape::Shape(ModelData* model_data) :
 
 void Shape::Draw() const
 {
-	vertex_array_object_->Bind();
 	Execute();
 }
 
 void Shape::Execute() const
 {
-	glDrawElements(GL_TRIANGLES, index_count_, GL_UNSIGNED_INT, 0);// ê‹ÇÍê¸Ç≈ï`âÊÇ∑ÇÈ
+	glDrawElements(GL_TRIANGLES, index_count_, GL_UNSIGNED_INT, 0);
 	//glDrawArrays(GL_TRIANGLES, 0, vertex_count_);
 }

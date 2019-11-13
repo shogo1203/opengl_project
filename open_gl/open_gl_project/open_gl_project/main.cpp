@@ -9,9 +9,10 @@
 #include "model_data.h"
 #include "renderer.h"
 #include "time.h"
-#include "vector3.h"
 #include "camera.h"
 #include "transform.h"
+#include "component_manager.h"
+#include "test_component.h"
 
 // 六面体の頂点の位置
 constexpr Vertex cube_vertex[] =
@@ -61,15 +62,20 @@ int main() {
 
 	Window window;
 	Camera camera;
+	camera.position_ = glm::vec3(4.0f, 3.0f, -3.0f);
 	camera.window_ = &window;
-	Transform transform;
-	Renderer* renderer = new Renderer("shpere.fbx", "point.vert", "point.frag", &window, &transform);
+	Renderer* renderer = new Renderer("cube.fbx", "point.vert", "point.frag", &window, &Transform());
+	std::cout << camera.ToString() << std::endl;
 
 	glfwSwapInterval(1);	//垂直同期のタイミングを待つ
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);    //ウィンドウの背景色を設定
 
-	glViewport(100, 50, 640, 480);    // ビューポートを設定する
+	glViewport(0, 0, 640, 480);    // ビューポートを設定する
 
+	Component* c = Component::Create<TestComponent>();
+	c->Initialize();
+
+	ComponentManager::GetInstance().Initialize();
 	Time::Initialize();
 	while (window.IsOpenWindow()) {
 

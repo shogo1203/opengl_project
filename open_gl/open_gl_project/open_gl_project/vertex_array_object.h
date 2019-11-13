@@ -20,5 +20,6 @@ private:
 	GLuint vertex_array_object_;    // 頂点配列オブジェクト
 	GLuint vertex_buffer_object_;    // 頂点バッファオブジェクト
 	GLuint index_buffer_object_;    // インデックスの頂点バッファオブジェクト
+	GLsizei index_count_;
 };
 

@@ -142,3 +142,8 @@ const int Window::IsDownKey(int key) const
 {
 	return glfwGetKey(window_, key);
 }
+
+const float Window::GetAspect() const
+{
+	return size_[0] / size_[1];
+}

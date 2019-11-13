@@ -19,6 +19,8 @@ VertexArrayObject::VertexArrayObject(GLint size, GLsizei vertex_count, const Ver
 	glGenBuffers(1, &index_buffer_object_);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer_object_);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_count * sizeof(GLuint), index, GL_STATIC_DRAW);
+
+	index_count_ = index_count;
 }
 
 VertexArrayObject::~VertexArrayObject()
@@ -30,5 +32,6 @@ VertexArrayObject::~VertexArrayObject()
 
 void VertexArrayObject::Bind() const
 {
-	glBindVertexArray(vertex_array_object_);    // 描画する頂点配列オブジェクトを指定する
+	//glDrawElements(GL_TRIANGLES, index_count_, GL_UNSIGNED_INT, (void*)0);
+		//glBindVertexArray(vertex_array_object_);    // 描画する頂点配列オブジェクトを指定する
 }

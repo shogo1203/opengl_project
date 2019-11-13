@@ -16,7 +16,6 @@ public:
 private:
 	OpenGLRenderer* gl_renderer_;
 	ModelData* fbx_data_;
-	glm::quat quaternion_;
 	Transform* transform_;
 };
 

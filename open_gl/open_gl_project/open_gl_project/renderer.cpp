@@ -6,6 +6,7 @@ Renderer::Renderer(const char* fbx_path, const char* vertex_shader_path, const c
 	fbx_data_ = FbxLoader::Load(fbx_path);
 	gl_renderer_ = new OpenGLRenderer(new Shape(fbx_data_), vertex_shader_path, fragment_shader_path, window);
 	gl_renderer_->Initialize();
+	std::cout << transform->position_.z << std::endl;
 }
 
 void Renderer::Draw() const

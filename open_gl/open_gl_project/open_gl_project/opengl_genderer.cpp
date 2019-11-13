@@ -12,22 +12,18 @@ OpenGLRenderer::OpenGLRenderer(Shape* shape, const char* vert_path, const char* 
 void OpenGLRenderer::Initialize()
 {
 }
-float a = 0;
-void OpenGLRenderer::Draw(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation)
+float z = 0.0f;
+void OpenGLRenderer::Draw(glm::vec3 position, glm::vec3 scale, glm::quat rotation)
 {
 	glUseProgram(program_);	// シェーダプログラムの使用開始
-
-	const GLfloat* const location(window_->GetLocation());
-	a += 0.01f;
-	const glm::mat4 rotation_mat = glm::rotate(glm::mat4(), 0.0f, rotation);
-	const Matrix rotate(Matrix::Rotate(a, 0.0f, 1.0f, 0.0f));
-	const Matrix model(Matrix::Translate(location[0], location[1], 0.0f) * rotate);    // モデル変換行列を求める
-	const Matrix view(Matrix::LookAt(0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f));    // ビュー変換行列を求める
-	const Matrix model_view(view * model);    // モデルビュー変換行列を求める
+	position.z -= z;
+	z += 0.1f;
+	const glm::mat4 translation_mat = glm::translate(glm::mat4(1.0f), position);
+	const glm::mat4 rotation_mat = glm::toMat4(rotation);
+	const glm::mat4 model_view_mat(translation_mat * rotation_mat * Camera::main_->LookAt());    // モデルビュー変換行列
 
 	// uniform変数に値を設定する
-	glUniformMatrix4fv(model_view_uniform_location_, 1, GL_FALSE, model_view.GetMatrix());
-
+	glUniformMatrix4fv(model_view_uniform_location_, 1, GL_FALSE, &model_view_mat[0][0]);
 	glUniformMatrix4fv(projection_uniform_location_, 1, GL_FALSE, &Camera::main_->Projection()[0][0]);
 
 	shape_->Draw();

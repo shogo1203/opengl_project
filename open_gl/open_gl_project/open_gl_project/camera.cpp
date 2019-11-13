@@ -2,11 +2,12 @@
 
 Camera* Camera::main_ = nullptr;
 
-Camera::Camera(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation, float near, float far, float fovy) :
+Camera::Camera(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation, float near, float far, float fovy, float visibility) :
 	Transform(position, scale, rotation),
 	near_(near),
 	far_(far),
-	fovy_(fovy)
+	fovy_(fovy),
+	visibility_(visibility)
 {
 	window_ = nullptr;
 	if (main_ == nullptr)
@@ -17,9 +18,10 @@ Camera::Camera(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation, float ne
 
 Camera::Camera() :
 	Transform(),
-	near_(1),
-	far_(10),
-	fovy_(0.3)
+	near_(0.001f),
+	far_(100.0f),
+	fovy_(0.01f),
+	visibility_(glm::radians(45.0f))
 {
 	window_ = nullptr;
 	if (main_ == nullptr) {
@@ -27,16 +29,17 @@ Camera::Camera() :
 	}
 }
 
-
 Camera::~Camera()
 {
+
 }
 
 glm::mat4 Camera::Projection()
 {
-	const GLfloat* const size(window_->GetSize());
-	const GLfloat fovy(window_->GetScale() * fovy_);
-	const GLfloat aspect(size[0] / size[1]);
+	return glm::perspective(visibility_, window_->GetAspect(), near_, far_);
+}
 
-	return glm::perspective(fovy, aspect, near_, far_);
+glm::mat4 Camera::LookAt()
+{
+	return glm::lookAt(position_, glm::vec3(), glm::vec3(0, 1, 0));
 }

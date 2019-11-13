@@ -1,4 +1,5 @@
 #pragma once
+
 #include <cstdlib>
 #include <iostream>
 #include <glew.h>
@@ -8,17 +9,19 @@
 #include <memory>
 #include "shape.h"
 #include "window.h"
-#include "matrix.h"
 #include "camera.h"
 #include "glm/glm.hpp"
+#include "glm/gtc/quaternion.hpp"
+#include "glm/gtx/quaternion.hpp"
 
 class OpenGLRenderer
 {
 public:
 	OpenGLRenderer(Shape* shape, const char* vert_path, const char* frag_path, Window* window);
 	void Initialize();
-	void Draw(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation);
+	void Draw(glm::vec3 position, glm::vec3 scale, glm::quat rotation);
 	void Finalize();
+
 private:
 	GLboolean PrintProgramInfoLog(GLuint program);
 	GLboolean PrintShaderInfoLog(GLuint shader, const char* str);
