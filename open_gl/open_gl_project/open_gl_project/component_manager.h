@@ -1,7 +1,8 @@
 #pragma once
 #include "singleton.h"
-#include <list>
+#include <map>
 #include "component.h"
+#include <list>
 
 class ComponentManager : public Singleton<ComponentManager>
 {
@@ -9,14 +10,9 @@ public:
 	void Initialize();
 	void Update();
 	void Finalize() override;
-	template <class T>
-	void AddComponent(const T* component);
+	void AddComponent(Component* component);
 
 private:
-	std::list<Component*> component_list_;
+	void RemoveComponent(std::string id);
+	std::map<std::string, Component*> components_;
 };
-
-template<class T>
-inline void ComponentManager::AddComponent(const T* component)
-{
-}

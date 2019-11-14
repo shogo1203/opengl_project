@@ -32,9 +32,47 @@ void Component::Awake()
 {
 }
 
-Component::Component() :
-	is_enable_(true)
+void Component::Draw()
 {
+}
+
+Component::Component() :
+	is_enable_(true),
+	parent_(nullptr),
+	component_state_(ComponentState::None),
+	is_initialized_(false),
+	is_destroy_(false)
+{
+}
+
+ComponentState Component::GetComponentState()
+{
+	return component_state_;
+}
+
+void Component::SetComponentState(ComponentState component_state)
+{
+	component_state_ = component_state;
+}
+
+void Component::Initialized()
+{
+	is_initialized_ = true;
+}
+
+bool Component::GetInitialized() const
+{
+	return is_initialized_;
+}
+
+void Component::Destroy()
+{
+	is_destroy_ = true;
+}
+
+bool Component::GetDestroyed() const
+{
+	return is_destroy_;
 }
 
 Component::~Component()

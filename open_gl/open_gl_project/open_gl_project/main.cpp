@@ -72,15 +72,18 @@ int main() {
 
 	glViewport(0, 0, 640, 480);    // ビューポートを設定する
 
-	Component* c = Component::Create<TestComponent>();
-	c->Initialize();
 
 	ComponentManager::GetInstance().Initialize();
 	Time::Initialize();
+
+	Component::Create<TestComponent>();
+	Component::Create<TestComponent>();
+
 	while (window.IsOpenWindow()) {
 
 		glfwPollEvents();
 		Time::Update();
+		ComponentManager::GetInstance().Update();
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		// ウィンドウを削除する
 

@@ -9,17 +9,10 @@
 class Object
 {
 public:
-	template <typename T, typename T1>
-	static bool Equals(const T* t, const T1* t1);
-	virtual std::string ToString() const;
 	Object();
+	virtual std::string ToString() const;
+	std::string GetInstanceId() const;
 
 private:
 	std::string instance_id_;
 };
-
-template<typename T, typename T1>
-inline bool Object::Equals(const T* t, const T1* t1)
-{
-	return t == t1;
-}
