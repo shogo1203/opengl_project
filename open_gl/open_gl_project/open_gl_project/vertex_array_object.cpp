@@ -11,9 +11,12 @@ VertexArrayObject::VertexArrayObject(GLint size, GLsizei vertex_count, const Ver
 
 	// 結合されている頂点バッファオブジェクトを in 変数から参照できるようにする
 	glVertexAttribPointer(0, size, GL_FLOAT, GL_FALSE, sizeof(Vertex), static_cast<Vertex*>(0)->position);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), static_cast<Vertex*>(0)->normal);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), static_cast<Vertex*>(0)->color);
+
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), static_cast<Vertex*>(0)->color);
 	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
 
 	// インデックスの頂点バッファオブジェクト
 	glGenBuffers(1, &index_buffer_object_);

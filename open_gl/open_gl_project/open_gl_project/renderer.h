@@ -10,7 +10,7 @@
 class Renderer
 {
 public:
-	Renderer(const char* fbx_path, const char* vertex_shader_path, const char* fragment_shader_path, Window* window, Transform* transform);
+	Renderer(const char* fbx_path, const char* vertex_shader_path, const char* fragment_shader_path, Transform* transform);
 	void Draw()  const;
 	void Finalize();
 private:
@@ -18,4 +18,3 @@ private:
 	ModelData* fbx_data_;
 	Transform* transform_;
 };
-

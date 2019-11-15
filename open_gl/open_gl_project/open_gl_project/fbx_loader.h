@@ -9,9 +9,14 @@ public:
 	static ModelData* Load(const char* path);
 
 private:
-	static void ExpandNode(FbxNode* node, ModelData* data);
-	static void AddVertex(FbxNode* node, ModelData* data);
-	static void ExpandPolygonVertices(FbxMesh* mesh, ModelData* data);
-	static void AddPolygonVertex(FbxMesh* mesh, ModelData* data, int index_polygons);
+	static void ExpandNode(FbxNode* node);    // ノードをすべて展開する
+	static void LoadVertex(FbxMesh* mesh);    // メッシュの読み込み
+	static void LoadVertexIndex(FbxMesh* mesh);    // 頂点インデックスの読み込み
+	static void ReadAttributeType(FbxNode* node);    // ノードの属性を見てそれに応じた関数を呼ぶ
+	static void PrintVector3(float x, float y, float z);
+	static void LoadNormal(FbxMesh* mesh);    // 法線の読み込み
+	static void LoadNormalByControllPointAndDirect(FbxGeometryElementNormal* normal);
+
+	static inline ModelData* model_data_ = nullptr;    // 読み込み時に生成する
 };
 

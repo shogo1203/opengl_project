@@ -40,6 +40,9 @@ Window::Window(int width, int height, const char* title) :
 	glClearDepth(1.0f);
 	glDepthFunc(GL_LESS);
 	glEnable(GL_DEPTH_TEST);
+
+	glViewport(0, 0, 640, 480);    // ビューポートを設定する
+	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);    //ウィンドウの背景色を設定
 }
 
 Window::~Window()

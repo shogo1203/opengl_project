@@ -1,14 +1,16 @@
 #pragma once
 #include "singleton.h"
 #include <map>
-#include "component.h"
 #include <list>
+#include "time.h"
+#include "component.h"
 
 class ComponentManager : public Singleton<ComponentManager>
 {
 public:
 	void Initialize();
 	void Update();
+	void Draw();
 	void Finalize() override;
 	void AddComponent(Component* component);
 

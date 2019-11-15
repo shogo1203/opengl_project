@@ -147,11 +147,13 @@
     <ClCompile Include="fbx_loader.cpp" />
     <ClCompile Include="game_object.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mesh_renderer.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="opengl_genderer.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="shape.cpp" />
     <ClCompile Include="singleton.cpp" />
+    <ClCompile Include="TestGameObject.cpp" />
     <ClCompile Include="test_component.cpp" />
     <ClCompile Include="time.cpp" />
     <ClCompile Include="transform.cpp" />
@@ -169,6 +171,7 @@
     <ClInclude Include="component_manager.h" />
     <ClInclude Include="fbx_loader.h" />
     <ClInclude Include="game_object.h" />
+    <ClInclude Include="mesh_renderer.h" />
     <ClInclude Include="model_data.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="opengl_genderer.h" />
@@ -176,6 +179,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="shape.h" />
     <ClInclude Include="singleton.h" />
+    <ClInclude Include="TestGameObject.h" />
     <ClInclude Include="test_component.h" />
     <ClInclude Include="time.h" />
     <ClInclude Include="transform.h" />

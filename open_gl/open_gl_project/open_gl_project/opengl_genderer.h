@@ -17,7 +17,7 @@
 class OpenGLRenderer
 {
 public:
-	OpenGLRenderer(Shape* shape, const char* vert_path, const char* frag_path, Window* window);
+	OpenGLRenderer(Shape* shape, const char* vert_path, const char* frag_path);
 	void Initialize();
 	void Draw(glm::vec3 position, glm::vec3 scale, glm::quat rotation);
 	void Finalize();
@@ -32,5 +32,4 @@ private:
 	GLuint model_view_uniform_location_;
 	GLuint projection_uniform_location_;
 	Shape* shape_;
-	Window* window_;
 };

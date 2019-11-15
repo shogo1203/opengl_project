@@ -2,6 +2,8 @@
 #include "object.h"
 #include <typeinfo>
 
+class GameObject;
+
 enum class ComponentState
 {
 	None,
@@ -27,9 +29,9 @@ public:
 	virtual void Draw();
 	bool is_enable_;
 	template <class T>
-	static T* Create(bool is_enable = true, Component* parent = nullptr);
+	static T* Create(bool is_enable = true, GameObject* parent = nullptr);
 	Component();
-	Component* parent_;
+	GameObject* parent_;
 	ComponentState GetComponentState();
 	void SetComponentState(ComponentState component_state);
 	void Initialized();
@@ -47,7 +49,7 @@ private:
 };
 
 template<class T>
-inline T* Component::Create(bool is_enable, Component* parent)
+inline T* Component::Create(bool is_enable, GameObject* parent)
 {
 	if (typeid(T) == typeid(Component)) {
 		return nullptr;

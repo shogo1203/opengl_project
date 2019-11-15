@@ -1,13 +1,15 @@
 #include "component_manager.h"
-#include <iostream>
 
 void ComponentManager::Initialize()
 {
 	components_.clear();
+	Time::Initialize();
 }
 
 void ComponentManager::Update()
 {
+	Time::Update();
+
 	std::list<Component*> enable_components, awake_components, initialize_components, disable_components, finalize_components;
 
 	for (auto&& [key, value] : components_) {
@@ -70,6 +72,17 @@ void ComponentManager::Update()
 	{
 		value->Finalize();
 		RemoveComponent(value->GetInstanceId());
+	}
+}
+
+void ComponentManager::Draw()
+{
+	for (auto&& [key, value] : components_)
+	{
+		if (value->is_enable_)
+		{
+			value->Draw();
+		}
 	}
 }
 

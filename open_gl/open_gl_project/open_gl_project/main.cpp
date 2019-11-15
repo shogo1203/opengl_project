@@ -13,6 +13,8 @@
 #include "transform.h"
 #include "component_manager.h"
 #include "test_component.h"
+#include "mesh_renderer.h"
+#include "TestGameObject.h"
 
 // 六面体の頂点の位置
 constexpr Vertex cube_vertex[] =
@@ -60,39 +62,30 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	Window window;
-	Camera camera;
-	camera.position_ = glm::vec3(4.0f, 3.0f, -3.0f);
-	camera.window_ = &window;
-	Renderer* renderer = new Renderer("cube.fbx", "point.vert", "point.frag", &window, &Transform());
-	std::cout << camera.ToString() << std::endl;
-
-	glfwSwapInterval(1);	//垂直同期のタイミングを待つ
-	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);    //ウィンドウの背景色を設定
-
-	glViewport(0, 0, 640, 480);    // ビューポートを設定する
-
-
 	ComponentManager::GetInstance().Initialize();
-	Time::Initialize();
+	Window window;
 
-	Component::Create<TestComponent>();
-	Component::Create<TestComponent>();
+	// カメラの設定
+	Camera* camera = Component::Create<Camera>();
+	camera->transform_.position_ = glm::vec3(4.0f, 5.0f, 15.0f);
+	camera->transform_.Rotate(0, 180, 0);
+	camera->window_ = &window;
+
+	GameObject* obje = Component::Create<TestGameObject>();
 
 	while (window.IsOpenWindow()) {
 
 		glfwPollEvents();
-		Time::Update();
 		ComponentManager::GetInstance().Update();
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		// ウィンドウを削除する
 
-		//描画処理
-		renderer->Draw();
+		ComponentManager::GetInstance().Draw();
 
 		window.SwapBuffers();
 	}
 
-	renderer->Finalize();
+	ComponentManager::GetInstance().Finalize();
+
 	return 0;
 }
