@@ -40,6 +40,7 @@ public:
 	bool GetDestroyed() const;
 
 protected:
+	static void AddComponent(Component* component);
 	virtual ~Component();
 
 private:
@@ -62,6 +63,6 @@ inline T* Component::Create(bool is_enable, GameObject* parent)
 	}
 	instance->is_enable_ = is_enable;
 
-	ComponentManager::GetInstance().AddComponent(instance);
+	AddComponent(instance);
 	return instance;
 }

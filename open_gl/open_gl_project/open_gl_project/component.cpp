@@ -1,4 +1,5 @@
 #include "component.h"
+#include "component_manager.h"
 
 void Component::Initialize()
 {
@@ -73,6 +74,11 @@ void Component::Destroy()
 bool Component::GetDestroyed() const
 {
 	return is_destroy_;
+}
+
+void Component::AddComponent(Component* component)
+{
+	ComponentManager::GetInstance().AddComponent(component);
 }
 
 Component::~Component()

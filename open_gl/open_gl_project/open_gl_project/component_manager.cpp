@@ -45,11 +45,11 @@ void ComponentManager::Update()
 
 	for (auto&& [key, value] : components_)
 	{
-		if (value->is_enable_)
+		if (value->is_enable_ && value->GetInitialized())
 		{
 			value->Update();
 		}
-		else
+		else if (!value->is_enable_ && value->GetInitialized())
 		{
 			disable_components.push_back(value);
 		}
@@ -79,7 +79,7 @@ void ComponentManager::Draw()
 {
 	for (auto&& [key, value] : components_)
 	{
-		if (value->is_enable_)
+		if (value->is_enable_ && value->GetInitialized())
 		{
 			value->Draw();
 		}

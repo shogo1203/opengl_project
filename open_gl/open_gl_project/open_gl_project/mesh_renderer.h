@@ -15,6 +15,6 @@ public:
 	const char* fragment_shader_path_;
 
 private:
-	Renderer* renderer;
+	Renderer* renderer_;
 };
 
