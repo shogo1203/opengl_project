@@ -32,9 +32,9 @@ Window::Window(int width, int height, const char* title) :
 	Resize(window_, width, height);    // 開いたウィンドウの初期設定
 
 	//	カリング設定
-	glFrontFace(GL_CCW);
-	glCullFace(GL_BACK);
-	glEnable(GL_CULL_FACE);
+	//glFrontFace(GL_CCW);
+	//glCullFace(GL_BACK);
+	//glEnable(GL_CULL_FACE);
 
 	// デプスバッファの設定
 	glClearDepth(1.0f);
@@ -42,7 +42,7 @@ Window::Window(int width, int height, const char* title) :
 	glEnable(GL_DEPTH_TEST);
 
 	glViewport(0, 0, 640, 480);    // ビューポートを設定する
-	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);    //ウィンドウの背景色を設定
+	glClearColor(0.5f, 0.5f, 0.5f, 0.0f);    //ウィンドウの背景色を設定
 }
 
 Window::~Window()

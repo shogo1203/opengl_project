@@ -1,4 +1,5 @@
 #include "fbx_loader.h"
+#define NAME_OF(VariableName) # VariableName
 
 ModelData* FbxLoader::Load(const char* path)
 {
@@ -204,11 +205,66 @@ void FbxLoader::LoadNormalByControllPointAndDirect(FbxGeometryElementNormal* nor
 
 void FbxLoader::LoadUv(FbxMesh* mesh)
 {
-	int element_uv_count = mesh->GetElementUVCount();
+	FbxStringList uv_set_names;
+	mesh->GetUVSetNames(uv_set_names);
 
-	for (int i = 0; i < element_uv_count; i++)
+	for (int i = 0; i < uv_set_names.GetCount(); i++)
 	{
-		SelectUvMapping(mesh, i);
+		std::string uv_set_name = uv_set_names.GetStringAt(i);
+		FbxGeometryElementUV* uv_element = mesh->GetElementUV(uv_set_name.c_str());
+
+		if (!uv_element)
+		{
+			continue;
+		}
+
+		FbxGeometryElement::EMappingMode mapping_mode = uv_element->GetMappingMode();
+		FbxGeometryElement::EReferenceMode reference_mode = uv_element->GetReferenceMode();
+
+		if (mapping_mode != FbxGeometryElement::eByPolygonVertex &&
+			mapping_mode != FbxGeometryElement::eByControlPoint)
+		{
+			return;
+		}
+
+		bool is_use_index = reference_mode != FbxGeometryElement::eDirect;
+		int index_count = (is_use_index) ? uv_element->GetIndexArray().GetCount() : 0;
+		int polygon_count = mesh->GetPolygonCount();
+
+		if (mapping_mode == FbxGeometryElement::eByControlPoint)
+		{
+			for (int j = 0; j < polygon_count; j++)
+			{
+				int polygon_size = mesh->GetPolygonSize(j);
+				for (int k = 0; k < polygon_size; k++)
+				{
+					int polygon_vertex_index = mesh->GetPolygonVertex(i, j);
+					int uv_index = is_use_index ? uv_element->GetIndexArray().GetAt(polygon_vertex_index) : polygon_vertex_index;
+					FbxVector2 uv_point = uv_element->GetDirectArray().GetAt(uv_index);
+					float point[2] = { uv_point[0], uv_point[1] };
+					model_data_->uv_points.push_back(point);
+				}
+			}
+		}
+		else if (mapping_mode == FbxGeometryElement::eByPolygonVertex)
+		{
+			int polygon_counter = 0;
+			for (int j = 0; j < polygon_count; j++)
+			{
+				int polygon_size = mesh->GetPolygonSize(j);
+				for (int k = 0; k < polygon_size; k++)
+				{
+					if (polygon_counter < index_count)
+					{
+						int uv_vertex_index = is_use_index ? uv_element->GetIndexArray().GetAt(polygon_counter) : polygon_counter;
+						FbxVector2 uv_point = uv_element->GetDirectArray().GetAt(uv_vertex_index);
+						float point[2] = { uv_point[0], uv_point[1] };
+						model_data_->uv_points.push_back(point);
+						polygon_counter++;
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -311,7 +367,7 @@ void FbxLoader::LoadUvByControllPointAndDirect(FbxLayerElementUV* uv)
 void FbxLoader::LoadVertexColor(FbxMesh* mesh)
 {
 	int vertex_color_count = mesh->GetElementVertexColorCount();
-	std::cout << vertex_color_count;
+
 	for (int i = 0; i < vertex_color_count; i++)
 	{
 		FbxGeometryElementVertexColor* vertex_color = mesh->GetElementVertexColor(i);
