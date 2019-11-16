@@ -105,6 +105,7 @@ void FbxLoader::ReadAttributeType(FbxNode* node)
 			LoadNormal(node->GetMesh());
 			LoadUv(node->GetMesh());
 			ReadMaterial(node);
+			LoadVertexColor(node->GetMesh());
 			break;
 		case fbxsdk::FbxNodeAttribute::eNurbs:
 			break;
@@ -244,7 +245,8 @@ void FbxLoader::ReadMaterial(FbxNode* node)
 						std::string texture_name = texture->GetRelativeFileName();
 						std::string uv_set_name = texture->UVSet.Get().Buffer();
 
-						std::cout << texture_name;
+						model_data_->textures.push_back(texture_name);
+						model_data_->uv_set_name = uv_set_name;
 					}
 				}
 			}
@@ -258,11 +260,8 @@ void FbxLoader::ReadMaterial(FbxNode* node)
 					if (texture) {
 						std::string texture_name = texture->GetRelativeFileName();
 						std::string uv_set_name = texture->UVSet.Get().Buffer();
-
-						//--- UVSet名を比較し対応しているテクスチャなら保持 ---//
-				/*		if (uvSet.uvSetName == UVSetName) {
-							uvSet.textures.push_back(textureName);
-						}*/
+						model_data_->uv_set_name = uv_set_name;
+						model_data_->textures.push_back(texture_name);
 					}
 				}
 			}
@@ -281,7 +280,10 @@ void FbxLoader::SelectUvMapping(FbxMesh* mesh, int index)
 	case fbxsdk::FbxLayerElement::eNone:
 		break;
 	case fbxsdk::FbxLayerElement::eByControlPoint:
-		LoadUvByControllPointAndDirect(uv);
+		if (reference == FbxGeometryElement::EReferenceMode::eDirect)
+		{
+			LoadUvByControllPointAndDirect(uv);
+		}
 		break;
 	case fbxsdk::FbxLayerElement::eByPolygonVertex:
 		break;
@@ -304,48 +306,53 @@ void FbxLoader::LoadUvByControllPointAndDirect(FbxLayerElementUV* uv)
 		point[1] = static_cast<GLfloat>(uv->GetDirectArray().GetAt(i)[1]);
 		model_data_->uv_points.push_back(point);
 	}
-	std::cout << model_data_->uv_points[0];
 }
-//
-//switch (reference)
-//{
-//case fbxsdk::FbxLayerElement::eDirect:
-//	for (int i = 0; i < uv_index_count; i++)
-//	{
-//		GLfloat point[2];
-//		point[0] = static_cast<GLfloat>(uv->GetDirectArray().GetAt(uv_index->GetAt(i))[0]);
-//		point[1] = static_cast<GLfloat>(uv->GetDirectArray().GetAt(uv_index->GetAt(i))[1]);
-//		model_data_->uv_points.push_back(point);
-//		PrintVector3(point[0], point[1], 0);
-//	}
-//	model_data_->uv_name = uv->GetName();
-//	break;
-//case fbxsdk::FbxLayerElement::eIndex:
-//	break;
-//case fbxsdk::FbxLayerElement::eIndexToDirect:
-//
-//	for (int i = 0; i < uv_index_count; i++)
-//	{
-//		GLfloat point[2];
-//		point[0] = static_cast<GLfloat>(uv->GetDirectArray().GetAt(uv_index->GetAt(i))[0]);
-//		point[1] = static_cast<GLfloat>(uv->GetDirectArray().GetAt(uv_index->GetAt(i))[1]);
-//		model_data_->uv_points.push_back(point);
-//	}
-//
-//	model_data_->uv_name = uv->GetName();
-//	std::cout << model_data_->uv_name;
-//	break;
-//}
-//switch (reference)
-//{
-//case fbxsdk::FbxLayerElement::eDirect:
-//	for (int i = 0; i < uv_index_count; i++)
-//	{
-//		GLfloat point[2];
-//		point[0] = static_cast<GLfloat>(uv->GetDirectArray().GetAt(uv_index->GetAt(i))[0]);
-//		point[1] = static_cast<GLfloat>(uv->GetDirectArray().GetAt(uv_index->GetAt(i))[1]);
-//		model_data_->uv_points.push_back(point);
-//	}
-//
-//	model_data_->uv_name = uv->GetName();
-//	std::cout << model_data_->uv_name;
+
+void FbxLoader::LoadVertexColor(FbxMesh* mesh)
+{
+	int vertex_color_count = mesh->GetElementVertexColorCount();
+	std::cout << vertex_color_count;
+	for (int i = 0; i < vertex_color_count; i++)
+	{
+		FbxGeometryElementVertexColor* vertex_color = mesh->GetElementVertexColor(i);
+		FbxGeometryElement::EMappingMode mapping_mode = vertex_color->GetMappingMode();
+		FbxGeometryElement::EReferenceMode reference_mode = vertex_color->GetReferenceMode();
+
+		switch (mapping_mode)
+		{
+		case fbxsdk::FbxLayerElement::eNone:
+			break;
+		case fbxsdk::FbxLayerElement::eByControlPoint:
+			break;
+		case fbxsdk::FbxLayerElement::eByPolygonVertex:
+			break;
+		case fbxsdk::FbxLayerElement::eByPolygon:
+			if (reference_mode == FbxGeometryElement::EReferenceMode::eDirect)
+			{
+				LoadVertexColorByPolygonVertexAndIndexToDirect(vertex_color);
+			}
+			break;
+		case fbxsdk::FbxLayerElement::eByEdge:
+			break;
+		case fbxsdk::FbxLayerElement::eAllSame:
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void FbxLoader::LoadVertexColorByPolygonVertexAndIndexToDirect(FbxGeometryElementVertexColor* vertex_color)
+{
+	FbxLayerElementArrayTemplate<int>* index = &vertex_color->GetIndexArray();
+	int index_count = index->GetCount();
+	float r, g, b, a;
+
+	for (int i = 0; i < index_count; i++)
+	{
+		r = static_cast<GLfloat>(vertex_color->GetDirectArray().GetAt(i)[0]);
+		g = static_cast<GLfloat>(vertex_color->GetDirectArray().GetAt(i)[1]);
+		b = static_cast<GLfloat>(vertex_color->GetDirectArray().GetAt(i)[2]);
+		a = static_cast<GLfloat>(vertex_color->GetDirectArray().GetAt(i)[3]);
+	}
+}

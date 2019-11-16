@@ -1,15 +1,16 @@
 #include "opengl_genderer.h"
 
-OpenGLRenderer::OpenGLRenderer(Shape* shape, const char* vert_path, const char* frag_path) :
+OpenGLRenderer::OpenGLRenderer(const char* vert_path, const char* frag_path, ModelData* model_data) :
 	program_(LoadProgram(vert_path, frag_path)),
 	model_view_uniform_location_(glGetUniformLocation(program_, "modelview")),
 	projection_uniform_location_(glGetUniformLocation(program_, "projection")),
-	shape_(shape)
+	model_data_(model_data)
 {
 }
 
 void OpenGLRenderer::Initialize()
 {
+	vertex_object_.Initialize(*model_data_);
 }
 
 void OpenGLRenderer::Draw(glm::vec3 position, glm::vec3 scale, glm::quat rotation)
@@ -22,15 +23,12 @@ void OpenGLRenderer::Draw(glm::vec3 position, glm::vec3 scale, glm::quat rotatio
 
 	// uniform変数に値を設定する
 	glUniformMatrix4fv(model_view_uniform_location_, 1, GL_FALSE, &model_view_mat[0][0]);
-
-	shape_->Draw();
-
+	vertex_object_.Draw();
 	glUseProgram(0);    // シェーダプログラムの使用終了
 }
 
 void OpenGLRenderer::Finalize()
 {
-	delete shape_;
 	delete this;
 }
 

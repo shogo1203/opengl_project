@@ -3,8 +3,8 @@
 Renderer::Renderer(const char* fbx_path, const char* vertex_shader_path, const char* fragment_shader_path, Transform* transform)
 {
 	transform_ = transform;
-	fbx_data_ = FbxLoader::Load(fbx_path);
-	gl_renderer_ = new OpenGLRenderer(new Shape(fbx_data_), vertex_shader_path, fragment_shader_path);
+	model_data_ = FbxLoader::Load(fbx_path);
+	gl_renderer_ = new OpenGLRenderer(vertex_shader_path, fragment_shader_path, model_data_);
 	gl_renderer_->Initialize();
 }
 
@@ -15,7 +15,7 @@ void Renderer::Draw() const
 
 void Renderer::Finalize()
 {
-	delete fbx_data_;
-	delete gl_renderer_;
+	delete model_data_;
+	gl_renderer_->Finalize();
 	delete this;
 }

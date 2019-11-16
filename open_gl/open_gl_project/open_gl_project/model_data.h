@@ -14,7 +14,7 @@ struct ModelData
 	int indices_count;
 	std::vector<GLuint> indices;
 	// uv
-	std::string uv_name;
+	std::string uv_set_name;
 	std::vector<GLfloat*> uv_points;
 	std::vector<std::string> textures;
 };

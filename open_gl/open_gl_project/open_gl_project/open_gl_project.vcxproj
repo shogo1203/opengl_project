@@ -151,14 +151,13 @@
     <ClCompile Include="object.cpp" />
     <ClCompile Include="opengl_genderer.cpp" />
     <ClCompile Include="renderer.cpp" />
-    <ClCompile Include="shape.cpp" />
     <ClCompile Include="singleton.cpp" />
     <ClCompile Include="TestGameObject.cpp" />
     <ClCompile Include="test_component.cpp" />
     <ClCompile Include="time.cpp" />
     <ClCompile Include="transform.cpp" />
     <ClCompile Include="utility.cpp" />
-    <ClCompile Include="vertex_array_object.cpp" />
+    <ClCompile Include="vertex_object.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -177,7 +176,6 @@
     <ClInclude Include="opengl_genderer.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="shape.h" />
     <ClInclude Include="singleton.h" />
     <ClInclude Include="TestGameObject.h" />
     <ClInclude Include="test_component.h" />
@@ -185,7 +183,7 @@
     <ClInclude Include="transform.h" />
     <ClInclude Include="utility.h" />
     <ClInclude Include="vertex.h" />
-    <ClInclude Include="vertex_array_object.h" />
+    <ClInclude Include="vertex_object.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>

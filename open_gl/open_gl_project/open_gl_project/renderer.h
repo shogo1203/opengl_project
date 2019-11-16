@@ -2,7 +2,6 @@
 
 #include "fbx_loader.h"
 #include "opengl_genderer.h"
-#include "shape.h"
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtc/quaternion.hpp"
 #include "transform.h"
@@ -15,6 +14,6 @@ public:
 	void Finalize();
 private:
 	OpenGLRenderer* gl_renderer_;
-	ModelData* fbx_data_;
+	ModelData* model_data_;
 	Transform* transform_;
 };

@@ -21,5 +21,7 @@ private:
 	static inline ModelData* model_data_ = nullptr;    // ì«Ç›çûÇ›éûÇ…ê∂ê¨Ç∑ÇÈ
 	static void SelectUvMapping(FbxMesh* mesh, int index);
 	static void LoadUvByControllPointAndDirect(FbxLayerElementUV* mesh);
+	static void LoadVertexColor(FbxMesh* mesh);
+	static void LoadVertexColorByPolygonVertexAndIndexToDirect(FbxGeometryElementVertexColor* vertex_color);
 };
 

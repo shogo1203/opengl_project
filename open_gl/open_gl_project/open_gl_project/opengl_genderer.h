@@ -1,5 +1,4 @@
 #pragma once
-
 #include <cstdlib>
 #include <iostream>
 #include <glew.h>
@@ -7,17 +6,17 @@
 #include <vector>
 #include <fstream>
 #include <memory>
-#include "shape.h"
 #include "window.h"
 #include "camera.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtx/quaternion.hpp"
+#include "vertex_object.h"
 
 class OpenGLRenderer
 {
 public:
-	OpenGLRenderer(Shape* shape, const char* vert_path, const char* frag_path);
+	OpenGLRenderer(const char* vert_path, const char* frag_path, ModelData* model_data);
 	void Initialize();
 	void Draw(glm::vec3 position, glm::vec3 scale, glm::quat rotation);
 	void Finalize();
@@ -31,5 +30,6 @@ private:
 	GLuint program_;
 	GLuint model_view_uniform_location_;
 	GLuint projection_uniform_location_;
-	Shape* shape_;
+	ModelData* model_data_;
+	VertexObject vertex_object_;
 };
