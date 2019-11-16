@@ -16,7 +16,7 @@ Transform::Transform(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) :
 
 void Transform::Rotate(float x, float y, float z)
 {
-	rotation_ += glm::quat(glm::vec3(x, y, z));
+	rotation_ *= glm::quat(glm::vec3(x, y, z));
 }
 
 void Transform::Rotate(glm::vec3 euler_angles)

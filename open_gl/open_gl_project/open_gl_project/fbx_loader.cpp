@@ -61,10 +61,10 @@ void FbxLoader::LoadVertex(FbxMesh* mesh)
 		vertex.position[1] = point[1];
 		vertex.position[2] = point[2];
 
-		vertex.color[0] = 0.5f;
-		vertex.color[1] = 1;
-		vertex.color[2] = 1;
-		vertex.color[3] = 0.5f;
+		vertex.color[0] = 1.0f;
+		vertex.color[1] = 1.0f;
+		vertex.color[2] = 1.0f;
+		vertex.color[3] = 0.0f;
 		model_data_->vertices.push_back(vertex);
 	}
 }

@@ -92,12 +92,12 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\opengl_project\open_gl\open_gl_project\open_gl_project\lib\boost_1_71_0\include\boost-1_71;D:\opengl_project\open_gl\open_gl_project\open_gl_project\lib\boost_1_71_0\include\boost-1_71\boost;C:\Users\shogo\Documents\opengl_project\open_gl\open_gl_project\open_gl_project\lib\FBX SDK\2019.0\include;C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\include;D:\opengl\glfw_install\include\GLFW;D:\opengl\glew_install\include\GL;C:\Users\shogo\Downloads\glfw\glew_build\include\GL;C:\Users\shogo\Downloads\glfw\glfw_build\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\shogo\Documents\boost\include\boost-1_71;D:\opengl_project\open_gl\open_gl_project\open_gl_project\lib\boost_1_71_0\include\boost-1_71;D:\opengl_project\open_gl\open_gl_project\open_gl_project\lib\boost_1_71_0\include\boost-1_71\boost;C:\Users\shogo\Documents\opengl_project\open_gl\open_gl_project\open_gl_project\lib\FBX SDK\2019.0\include;C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\include;D:\opengl\glfw_install\include\GLFW;D:\opengl\glew_install\include\GL;C:\Users\shogo\Downloads\glfw\glew_build\include\GL;C:\Users\shogo\Downloads\glfw\glfw_build\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>D:\opengl_project\open_gl\open_gl_project\open_gl_project\lib\boost_1_71_0\stage\lib\x64;C:\Users\shogo\Documents\opengl_project\open_gl\open_gl_project\open_gl_project\lib\FBX SDK\2019.0\lib\vs2015\x64\debug;C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\lib\vs2015\x64\debug;D:\opengl\glew_install\lib;D:\opengl\glfw_install\lib;C:\Users\shogo\Downloads\glfw\glew_build\lib;C:\Users\shogo\Downloads\glfw\glfw_build\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\shogo\Documents\boost\lib;D:\opengl_project\open_gl\open_gl_project\open_gl_project\lib\boost_1_71_0\stage\lib\x64;C:\Users\shogo\Documents\opengl_project\open_gl\open_gl_project\open_gl_project\lib\FBX SDK\2019.0\lib\vs2015\x64\debug;C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\lib\vs2015\x64\debug;D:\opengl\glew_install\lib;D:\opengl\glfw_install\lib;C:\Users\shogo\Downloads\glfw\glew_build\lib;C:\Users\shogo\Downloads\glfw\glfw_build\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libfbxsdk-md.lib;opengl32.lib;glfw3.lib;libglew32d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -128,7 +128,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\opengl_project\open_gl\open_gl_project\open_gl_project\lib\boost_1_71_0\include\boost-1_71;D:\opengl_project\open_gl\open_gl_project\open_gl_project\lib\boost_1_71_0\include\boost-1_71;C:\Users\shogo\Documents\opengl_project\open_gl\open_gl_project\open_gl_project\lib\FBX SDK\2019.0\include;C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\include;D:\opengl\glfw_install\include\GLFW;D:\opengl\glew_install\include\GL;C:\Users\shogo\Downloads\glfw\glew_build\include\GL;C:\Users\shogo\Downloads\glfw\glfw_build\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\shogo\Documents\boost\include\boost-1_71;D:\opengl_project\open_gl\open_gl_project\open_gl_project\lib\boost_1_71_0\include\boost-1_71;C:\Users\shogo\Documents\opengl_project\open_gl\open_gl_project\open_gl_project\lib\FBX SDK\2019.0\include;C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\include;D:\opengl\glfw_install\include\GLFW;D:\opengl\glew_install\include\GL;C:\Users\shogo\Downloads\glfw\glew_build\include\GL;C:\Users\shogo\Downloads\glfw\glfw_build\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -136,7 +136,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>D:\opengl_project\open_gl\open_gl_project\open_gl_project\lib\boost_1_71_0\stage\lib\x64;C:\Users\shogo\Documents\opengl_project\open_gl\open_gl_project\open_gl_project\lib\FBX SDK\2019.0\lib\vs2015\x64\release;C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\lib\vs2015\x64\release;D:\opengl\glew_install\lib;D:\opengl\glfw_install\lib;C:\Users\shogo\Downloads\glfw\glew_build\lib;C:\Users\shogo\Downloads\glfw\glfw_build\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\shogo\Documents\boost\lib;D:\opengl_project\open_gl\open_gl_project\open_gl_project\lib\boost_1_71_0\stage\lib\x64;C:\Users\shogo\Documents\opengl_project\open_gl\open_gl_project\open_gl_project\lib\FBX SDK\2019.0\lib\vs2015\x64\release;C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\lib\vs2015\x64\release;D:\opengl\glew_install\lib;D:\opengl\glfw_install\lib;C:\Users\shogo\Downloads\glfw\glew_build\lib;C:\Users\shogo\Downloads\glfw\glfw_build\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libfbxsdk-md.lib;opengl32.lib;glfw3.lib;libglew32d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

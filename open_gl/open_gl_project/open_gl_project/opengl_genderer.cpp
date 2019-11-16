@@ -17,7 +17,8 @@ void OpenGLRenderer::Draw(glm::vec3 position, glm::vec3 scale, glm::quat rotatio
 	glUseProgram(program_);	// シェーダプログラムの使用開始
 	const glm::mat4 translation_mat = glm::translate(glm::mat4(1.0f), position);
 	const glm::mat4 rotation_mat = glm::toMat4(rotation);
-	const glm::mat4 model_view_mat(Camera::main_->Projection() * Camera::main_->LookAt() * rotation_mat * translation_mat);    // モデルビュー変換行列
+	const glm::mat4 scale_mat = glm::scale(glm::mat4(1.0f), scale);
+	const glm::mat4 model_view_mat(Camera::main_->Projection() * Camera::main_->LookAt() * translation_mat * rotation_mat * scale_mat);    // モデルビュー変換行列
 
 	// uniform変数に値を設定する
 	glUniformMatrix4fv(model_view_uniform_location_, 1, GL_FALSE, &model_view_mat[0][0]);
