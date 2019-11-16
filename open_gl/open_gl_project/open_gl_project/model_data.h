@@ -3,6 +3,7 @@
 #include <glew.h>
 #include <vector>
 #include "vertex.h"
+#include <string>
 
 struct ModelData
 {
@@ -12,4 +13,8 @@ struct ModelData
 	// 頂点インデックス
 	int indices_count;
 	std::vector<GLuint> indices;
+	// uv
+	std::string uv_name;
+	std::vector<GLfloat*> uv_points;
+	std::vector<std::string> textures;
 };

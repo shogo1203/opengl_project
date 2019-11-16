@@ -16,7 +16,10 @@ private:
 	static void PrintVector3(float x, float y, float z);
 	static void LoadNormal(FbxMesh* mesh);    // –@ü‚Ì“Ç‚İ‚İ
 	static void LoadNormalByControllPointAndDirect(FbxGeometryElementNormal* normal);
-
+	static void LoadUv(FbxMesh* mesh);    // uvæ“¾
+	static void ReadMaterial(FbxNode* node);
 	static inline ModelData* model_data_ = nullptr;    // “Ç‚İ‚İ‚É¶¬‚·‚é
+	static void SelectUvMapping(FbxMesh* mesh, int index);
+	static void LoadUvByControllPointAndDirect(FbxLayerElementUV* mesh);
 };
 

@@ -23,6 +23,7 @@ ModelData* FbxLoader::Load(const char* path)
 
 	// モデルの読み込み
 	FbxNode* fbx_node = scene->GetRootNode();
+	model_data_ = nullptr;
 	model_data_ = new ModelData();
 
 	ExpandNode(fbx_node);
@@ -102,6 +103,8 @@ void FbxLoader::ReadAttributeType(FbxNode* node)
 			LoadVertex(node->GetMesh());
 			LoadVertexIndex(node->GetMesh());
 			LoadNormal(node->GetMesh());
+			LoadUv(node->GetMesh());
+			ReadMaterial(node);
 			break;
 		case fbxsdk::FbxNodeAttribute::eNurbs:
 			break;
@@ -197,3 +200,152 @@ void FbxLoader::LoadNormalByControllPointAndDirect(FbxGeometryElementNormal* nor
 		model_data_->vertices[i].normal[2] = static_cast<GLfloat>(normal->GetDirectArray().GetAt(i)[2]);
 	}
 }
+
+void FbxLoader::LoadUv(FbxMesh* mesh)
+{
+	int element_uv_count = mesh->GetElementUVCount();
+
+	for (int i = 0; i < element_uv_count; i++)
+	{
+		SelectUvMapping(mesh, i);
+	}
+}
+
+void FbxLoader::ReadMaterial(FbxNode* node)
+{
+	int material_count = node->GetMaterialCount();
+
+	for (int i = 0; i < material_count; i++) {
+		FbxSurfaceMaterial* material = node->GetMaterial(i);
+		FbxProperty prop = material->FindProperty(FbxSurfaceMaterial::sDiffuse);
+
+		int layered_texture_count = prop.GetSrcObjectCount<FbxLayeredTexture>();
+
+		if (0 < layered_texture_count) {
+			int file_texture_count = prop.GetSrcObjectCount<FbxFileTexture>();
+
+			if (0 < file_texture_count) {
+				for (int j = 0; file_texture_count > j; j++) {
+					FbxFileTexture* texture = prop.GetSrcObject<FbxFileTexture>(j);
+					if (texture) {
+						std::string texture_path = texture->GetRelativeFileName();
+					}
+				}
+			}
+
+			for (int j = 0; layered_texture_count > j; j++) {
+				FbxLayeredTexture* layered_texture = prop.GetSrcObject<FbxLayeredTexture>(j);
+				int textureCount = layered_texture->GetSrcObjectCount<FbxFileTexture>();
+
+				for (int k = 0; textureCount > k; k++) {
+					FbxFileTexture* texture = prop.GetSrcObject<FbxFileTexture>(k);
+
+					if (texture) {
+						std::string texture_name = texture->GetRelativeFileName();
+						std::string uv_set_name = texture->UVSet.Get().Buffer();
+
+						std::cout << texture_name;
+					}
+				}
+			}
+		}
+		else {
+			int file_texture_count = prop.GetSrcObjectCount<FbxFileTexture>();
+
+			if (0 < file_texture_count) {
+				for (int j = 0; file_texture_count > j; j++) {
+					FbxFileTexture* texture = prop.GetSrcObject<FbxFileTexture>(j);
+					if (texture) {
+						std::string texture_name = texture->GetRelativeFileName();
+						std::string uv_set_name = texture->UVSet.Get().Buffer();
+
+						//--- UVSet名を比較し対応しているテクスチャなら保持 ---//
+				/*		if (uvSet.uvSetName == UVSetName) {
+							uvSet.textures.push_back(textureName);
+						}*/
+					}
+				}
+			}
+		}
+	}
+}
+
+void FbxLoader::SelectUvMapping(FbxMesh* mesh, int index)
+{
+	FbxGeometryElementUV* uv = mesh->GetElementUV(index);
+	FbxGeometryElement::EMappingMode mapping = uv->GetMappingMode();
+	FbxGeometryElement::EReferenceMode reference = uv->GetReferenceMode();
+
+	switch (mapping)
+	{
+	case fbxsdk::FbxLayerElement::eNone:
+		break;
+	case fbxsdk::FbxLayerElement::eByControlPoint:
+		LoadUvByControllPointAndDirect(uv);
+		break;
+	case fbxsdk::FbxLayerElement::eByPolygonVertex:
+		break;
+	case fbxsdk::FbxLayerElement::eByPolygon:
+		break;
+	case fbxsdk::FbxLayerElement::eByEdge:
+		break;
+	case fbxsdk::FbxLayerElement::eAllSame:
+		break;
+	default:
+		break;
+	}
+}
+void FbxLoader::LoadUvByControllPointAndDirect(FbxLayerElementUV* uv)
+{
+	for (int i = 0; i < uv->GetDirectArray().GetCount(); i++)
+	{
+		GLfloat point[2];
+		point[0] = static_cast<GLfloat>(uv->GetDirectArray().GetAt(i)[0]);
+		point[1] = static_cast<GLfloat>(uv->GetDirectArray().GetAt(i)[1]);
+		model_data_->uv_points.push_back(point);
+	}
+	std::cout << model_data_->uv_points[0];
+}
+//
+//switch (reference)
+//{
+//case fbxsdk::FbxLayerElement::eDirect:
+//	for (int i = 0; i < uv_index_count; i++)
+//	{
+//		GLfloat point[2];
+//		point[0] = static_cast<GLfloat>(uv->GetDirectArray().GetAt(uv_index->GetAt(i))[0]);
+//		point[1] = static_cast<GLfloat>(uv->GetDirectArray().GetAt(uv_index->GetAt(i))[1]);
+//		model_data_->uv_points.push_back(point);
+//		PrintVector3(point[0], point[1], 0);
+//	}
+//	model_data_->uv_name = uv->GetName();
+//	break;
+//case fbxsdk::FbxLayerElement::eIndex:
+//	break;
+//case fbxsdk::FbxLayerElement::eIndexToDirect:
+//
+//	for (int i = 0; i < uv_index_count; i++)
+//	{
+//		GLfloat point[2];
+//		point[0] = static_cast<GLfloat>(uv->GetDirectArray().GetAt(uv_index->GetAt(i))[0]);
+//		point[1] = static_cast<GLfloat>(uv->GetDirectArray().GetAt(uv_index->GetAt(i))[1]);
+//		model_data_->uv_points.push_back(point);
+//	}
+//
+//	model_data_->uv_name = uv->GetName();
+//	std::cout << model_data_->uv_name;
+//	break;
+//}
+//switch (reference)
+//{
+//case fbxsdk::FbxLayerElement::eDirect:
+//	for (int i = 0; i < uv_index_count; i++)
+//	{
+//		GLfloat point[2];
+//		point[0] = static_cast<GLfloat>(uv->GetDirectArray().GetAt(uv_index->GetAt(i))[0]);
+//		point[1] = static_cast<GLfloat>(uv->GetDirectArray().GetAt(uv_index->GetAt(i))[1]);
+//		model_data_->uv_points.push_back(point);
+//	}
+//
+//	model_data_->uv_name = uv->GetName();
+//	std::cout << model_data_->uv_name;
