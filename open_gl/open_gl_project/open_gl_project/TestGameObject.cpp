@@ -12,4 +12,6 @@ void TestGameObject::Initialize()
 	mesh->fbx_path_ = "Sadface.fbx";
 	mesh->vertex_shader_path_ = "point.vert";
 	mesh->fragment_shader_path_ = "point.frag";
+
+	ImageLoader::Load("image.png");
 }
