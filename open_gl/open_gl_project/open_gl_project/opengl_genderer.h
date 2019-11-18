@@ -12,7 +12,6 @@
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtx/quaternion.hpp"
 #include "vertex_object.h"
-#include <png.h>
 
 class OpenGLRenderer
 {

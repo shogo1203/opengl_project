@@ -1,8 +1,11 @@
 #pragma once
+#include <opencv2/opencv.hpp>
 
 struct ImageData
 {
-	int height;
-	int width;
+	cv::Mat image;
+
+	float GetWidth() const;
+	float GetHeight() const;
 };
 
