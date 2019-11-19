@@ -1,6 +1,6 @@
+#include <glew.h>
 #include <cstdlib>
 #include <iostream>
-#include <glew.h>
 #include <glfw3.h>
 #include <vector>
 #include <fstream>

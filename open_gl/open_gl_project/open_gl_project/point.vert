@@ -1,4 +1,4 @@
-#version 150 core
+#version 460 core
 uniform mat4 modelview;
 in vec4 position;
 in vec4 color;
@@ -10,7 +10,7 @@ out vec4 vertex_color;
 
 void main()
 {
-vertex_uv = uv;
-	vertex_color = color * normal;
+    vertex_uv = uv;
+	vertex_color = color;
 	gl_Position = modelview * position;
 }

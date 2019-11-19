@@ -1,6 +1,6 @@
 #pragma once
-#include <opencv2/opencv.hpp>
 #include <glfw3.h>
+#include <opencv2/opencv.hpp>
 
 struct ImageData
 {

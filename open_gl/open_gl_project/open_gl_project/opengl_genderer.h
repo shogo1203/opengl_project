@@ -1,7 +1,7 @@
 #pragma once
+#include <glew.h>
 #include <cstdlib>
 #include <iostream>
-#include <glew.h>
 #include <glfw3.h>
 #include <vector>
 #include <fstream>
@@ -32,4 +32,6 @@ private:
 	GLuint projection_uniform_location_;
 	ModelData* model_data_;
 	VertexObject vertex_object_;
+	GLuint texture_location_;
+	GLuint uv_location_;
 };

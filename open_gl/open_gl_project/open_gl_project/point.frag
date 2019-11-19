@@ -1,11 +1,11 @@
-#version 150 core
+#version 460 core
 in vec4 vertex_color;
 in vec2 vertex_uv;
 
-out sampler2D texture;
+uniform sampler2D texture_2d;
 out vec4 fragment;
 
 void main()
 {
-	fragment = texture2D(texture, vertex_uv).rgb;
+	fragment = texture(texture_2d, vertex_uv);
 }

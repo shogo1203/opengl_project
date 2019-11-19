@@ -6,10 +6,11 @@ VertexObject::VertexObject()
 	glBindVertexArray(vertex_array_object_);
 }
 
-void VertexObject::Initialize(const ModelData& model_data)
+void VertexObject::Initialize(ModelData* model_data)
 {
-	InitializeVertexBufferObject(model_data.vertices_count, model_data.vertices.data());
-	InitializeIndexBufferObject(model_data.indices_count, model_data.indices.data());
+	model_data_ = model_data;
+	InitializeVertexBufferObject(model_data->vertices_count, model_data->vertices.data());
+	InitializeIndexBufferObject(model_data->indices_count, model_data->indices.data());
 }
 
 void VertexObject::Finalize()
@@ -29,10 +30,12 @@ void VertexObject::InitializeVertexBufferObject(GLsizei vertex_count, const Vert
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), static_cast<Vertex*>(0)->position);
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), static_cast<Vertex*>(0)->color);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), static_cast<Vertex*>(0)->normal);
+	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), static_cast<Vertex*>(0)->uv);
 
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
+	glEnableVertexAttribArray(3);
 }
 
 void VertexObject::InitializeIndexBufferObject(GLsizei index_count, const GLuint* index)

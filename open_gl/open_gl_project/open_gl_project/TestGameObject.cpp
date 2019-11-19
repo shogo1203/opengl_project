@@ -7,11 +7,9 @@ void TestGameObject::Update()
 
 void TestGameObject::Initialize()
 {
-	transform_.scale_ = glm::vec3(0.1f, 0.1f, 0.1f);
+	transform_.scale_ = glm::vec3(1.0f, 1.0f, 1.0f);
 	MeshRenderer* mesh = Component::Create<MeshRenderer>(true, this);
-	mesh->fbx_path_ = "Sadface.fbx";
+	mesh->fbx_path_ = "cube.fbx";
 	mesh->vertex_shader_path_ = "point.vert";
 	mesh->fragment_shader_path_ = "point.frag";
-
-	ImageLoader::Load("image.png");
 }

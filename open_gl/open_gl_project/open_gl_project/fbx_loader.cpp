@@ -68,6 +68,7 @@ void FbxLoader::LoadVertex(FbxMesh* mesh)
 		vertex.color[2] = 1.0f;
 		vertex.color[3] = 0.0f;
 		model_data_->vertices.push_back(vertex);
+
 	}
 }
 
@@ -205,6 +206,7 @@ void FbxLoader::LoadNormalByControllPointAndDirect(FbxGeometryElementNormal* nor
 
 void FbxLoader::LoadUv(FbxMesh* mesh)
 {
+	//std::cout << mesh->GetAllChannelUV(0).Size();
 	FbxStringList uv_set_names;
 	mesh->GetUVSetNames(uv_set_names);
 
@@ -218,6 +220,11 @@ void FbxLoader::LoadUv(FbxMesh* mesh)
 			continue;
 		}
 
+		for (auto&& index : model_data_->indices) {
+			FbxVector2 point = uv_element->GetDirectArray().GetAt(index);
+			//std::cout << point[0] << "," << point[1] << std::endl;
+		}
+
 		FbxGeometryElement::EMappingMode mapping_mode = uv_element->GetMappingMode();
 		FbxGeometryElement::EReferenceMode reference_mode = uv_element->GetReferenceMode();
 
@@ -229,27 +236,36 @@ void FbxLoader::LoadUv(FbxMesh* mesh)
 
 		bool is_use_index = reference_mode != FbxGeometryElement::eDirect;
 		int index_count = (is_use_index) ? uv_element->GetIndexArray().GetCount() : 0;
-		int polygon_count = mesh->GetPolygonCount();
 
+		// ’¸“_‚Æ“¯‚¶
 		if (mapping_mode == FbxGeometryElement::eByControlPoint)
 		{
-			for (int j = 0; j < polygon_count; j++)
+			int index = 0;
+			std::vector<int> indices;
+			for (int j = 0; j < mesh->GetPolygonCount(); j++)
 			{
-				int polygon_size = mesh->GetPolygonSize(j);
-				for (int k = 0; k < polygon_size; k++)
+				for (int k = 0; k < 3; k++)
 				{
-					int polygon_vertex_index = mesh->GetPolygonVertex(i, j);
+					int polygon_vertex_index = mesh->GetPolygonVertex(j, k);
 					int uv_index = is_use_index ? uv_element->GetIndexArray().GetAt(polygon_vertex_index) : polygon_vertex_index;
 					FbxVector2 uv_point = uv_element->GetDirectArray().GetAt(uv_index);
-					float point[2] = { uv_point[0], uv_point[1] };
-					model_data_->uv_points.push_back(point);
+
+					auto itr = std::find(indices.begin(), indices.end(), polygon_vertex_index);
+
+					if (itr == indices.end())
+					{
+						indices.push_back(polygon_vertex_index);
+						model_data_->vertices[index].uv[0] = uv_point[0];
+						model_data_->vertices[index].uv[1] = uv_point[1];
+						index++;
+					}
 				}
 			}
 		}
 		else if (mapping_mode == FbxGeometryElement::eByPolygonVertex)
 		{
 			int polygon_counter = 0;
-			for (int j = 0; j < polygon_count; j++)
+			for (int j = 0; j < mesh->GetPolygonCount(); j++)
 			{
 				int polygon_size = mesh->GetPolygonSize(j);
 				for (int k = 0; k < polygon_size; k++)
@@ -258,8 +274,10 @@ void FbxLoader::LoadUv(FbxMesh* mesh)
 					{
 						int uv_vertex_index = is_use_index ? uv_element->GetIndexArray().GetAt(polygon_counter) : polygon_counter;
 						FbxVector2 uv_point = uv_element->GetDirectArray().GetAt(uv_vertex_index);
-						float point[2] = { uv_point[0], uv_point[1] };
-						model_data_->uv_points.push_back(point);
+						Uv uv;
+						uv.point[0] = uv_point[0];
+						uv.point[1] = uv_point[1];
+						model_data_->uv_points.push_back(uv);
 						polygon_counter++;
 					}
 				}
@@ -322,45 +340,6 @@ void FbxLoader::ReadMaterial(FbxNode* node)
 				}
 			}
 		}
-	}
-}
-
-void FbxLoader::SelectUvMapping(FbxMesh* mesh, int index)
-{
-	FbxGeometryElementUV* uv = mesh->GetElementUV(index);
-	FbxGeometryElement::EMappingMode mapping = uv->GetMappingMode();
-	FbxGeometryElement::EReferenceMode reference = uv->GetReferenceMode();
-
-	switch (mapping)
-	{
-	case fbxsdk::FbxLayerElement::eNone:
-		break;
-	case fbxsdk::FbxLayerElement::eByControlPoint:
-		if (reference == FbxGeometryElement::EReferenceMode::eDirect)
-		{
-			LoadUvByControllPointAndDirect(uv);
-		}
-		break;
-	case fbxsdk::FbxLayerElement::eByPolygonVertex:
-		break;
-	case fbxsdk::FbxLayerElement::eByPolygon:
-		break;
-	case fbxsdk::FbxLayerElement::eByEdge:
-		break;
-	case fbxsdk::FbxLayerElement::eAllSame:
-		break;
-	default:
-		break;
-	}
-}
-void FbxLoader::LoadUvByControllPointAndDirect(FbxLayerElementUV* uv)
-{
-	for (int i = 0; i < uv->GetDirectArray().GetCount(); i++)
-	{
-		GLfloat point[2];
-		point[0] = static_cast<GLfloat>(uv->GetDirectArray().GetAt(i)[0]);
-		point[1] = static_cast<GLfloat>(uv->GetDirectArray().GetAt(i)[1]);
-		model_data_->uv_points.push_back(point);
 	}
 }
 

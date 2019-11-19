@@ -2,6 +2,7 @@
 #include <fbxsdk.h>
 #include <iostream>
 #include "model_data.h"
+#include <algorithm>
 
 class FbxLoader
 {
@@ -18,8 +19,6 @@ private:
 	static void LoadNormalByControllPointAndDirect(FbxGeometryElementNormal* normal);
 	static void LoadUv(FbxMesh* mesh);    // uvéÊìæ
 	static void ReadMaterial(FbxNode* node);
-	static void SelectUvMapping(FbxMesh* mesh, int index);
-	static void LoadUvByControllPointAndDirect(FbxLayerElementUV* mesh);
 	static void LoadVertexColor(FbxMesh* mesh);
 	static void LoadVertexColorByPolygonVertexAndIndexToDirect(FbxGeometryElementVertexColor* vertex_color);
 	static inline ModelData* model_data_ = nullptr;    // ì«Ç›çûÇ›éûÇ…ê∂ê¨Ç∑ÇÈ
