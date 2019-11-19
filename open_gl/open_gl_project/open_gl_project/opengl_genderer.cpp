@@ -121,8 +121,10 @@ GLuint OpenGLRenderer::CreateProgram(const char* v_src, const char* f_src)
 	glBindAttribLocation(program, 0, "position");
 	glBindAttribLocation(program, 1, "color");
 	glBindAttribLocation(program, 2, "normal");
+	glBindAttribLocation(program, 3, "uv");
 
 	glBindFragDataLocation(program, 0, "fragment");
+	glBindFragDataLocation(program, 1, "texture");
 	glLinkProgram(program);
 
 	// 作成したプログラムオブジェクトを返す
@@ -149,6 +151,7 @@ bool OpenGLRenderer::ReadShaderSource(const char* name, std::vector<GLchar>& buf
 	if (file.fail())
 	{
 		std::cerr << "failed to open source file:" << name << std::endl;
+		return false;
 	}
 
 	// ファイルの末尾に移動し現在位置（＝ファイルサイズ）を得る

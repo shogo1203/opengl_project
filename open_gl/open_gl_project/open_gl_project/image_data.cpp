@@ -2,10 +2,10 @@
 
 float ImageData::GetWidth() const
 {
-	return image.rows;
+	return mat.rows;
 }
 
 float ImageData::GetHeight() const
 {
-	return image.cols;
+	return mat.cols;
 }

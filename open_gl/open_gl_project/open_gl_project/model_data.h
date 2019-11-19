@@ -17,4 +17,6 @@ struct ModelData
 	std::string uv_set_name;
 	std::vector<GLfloat*> uv_points;
 	std::vector<std::string> textures;
+
+	static ModelData* Create(const char* path);
 };
