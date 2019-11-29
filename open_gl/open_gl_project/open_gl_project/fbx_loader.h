@@ -18,9 +18,9 @@ private:
 	static void LoadNormal(FbxMesh* mesh);    // ñ@ê¸ÇÃì«Ç›çûÇ›
 	static void LoadNormalByControllPointAndDirect(FbxGeometryElementNormal* normal);
 	static void LoadUv(FbxMesh* mesh);    // uvéÊìæ
-	static void ReadMaterial(FbxNode* node);
+	static void AddTexture(FbxProperty prop);
 	static void LoadVertexColor(FbxMesh* mesh);
 	static void LoadVertexColorByPolygonVertexAndIndexToDirect(FbxGeometryElementVertexColor* vertex_color);
 	static inline ModelData* model_data_ = nullptr;    // ì«Ç›çûÇ›éûÇ…ê∂ê¨Ç∑ÇÈ
+	static void LoadMaterial(FbxSurfaceMaterial* mat);
 };
-

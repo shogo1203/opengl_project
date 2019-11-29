@@ -17,7 +17,7 @@ void OpenGLRenderer::Initialize()
 void OpenGLRenderer::Draw(glm::vec3 position, glm::vec3 scale, glm::quat rotation)
 {
 	glUseProgram(program_);	// シェーダプログラムの使用開始
-	glBindTexture(GL_TEXTURE_2D, model_data_->image_data_->id);
+	//glBindTexture(GL_TEXTURE_2D, model_data_->image_data_->id);
 	const glm::mat4 translation_mat = glm::translate(glm::mat4(1.0f), position);
 	const glm::mat4 rotation_mat = glm::toMat4(rotation);
 	const glm::mat4 scale_mat = glm::scale(glm::mat4(1.0f), scale);
@@ -28,7 +28,7 @@ void OpenGLRenderer::Draw(glm::vec3 position, glm::vec3 scale, glm::quat rotatio
 	glUniform1i(texture_location_, 0);
 	vertex_object_.Draw();
 
-	glBindTexture(GL_TEXTURE_2D, 0);
+	//glBindTexture(GL_TEXTURE_2D, 0);
 	glUseProgram(0);    // シェーダプログラムの使用終了
 }
 

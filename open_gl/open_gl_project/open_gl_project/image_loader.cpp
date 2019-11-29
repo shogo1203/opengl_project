@@ -23,7 +23,7 @@ ImageData* ImageLoader::Load(const char* path)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	//glBindTexture(GL_TEXTURE_2D, 0);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image_data.GetWidth(), image_data.GetHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, image_data.mat.ptr());    // テクスチャにデータを紐つける
 
 	return &image_data;

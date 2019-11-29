@@ -3,6 +3,9 @@
 
 ModelData* FbxLoader::Load(const char* path)
 {
+	model_data_ = nullptr;
+	model_data_ = new ModelData();
+
 	// fbx sdkèâä˙âªèàóù
 	FbxManager* manager = FbxManager::Create();
 	FbxScene* scene = FbxScene::Create(manager, "");
@@ -14,6 +17,7 @@ ModelData* FbxLoader::Load(const char* path)
 	if (!isImporting)
 	{
 		std::cerr << "faild import path:" << path << std::endl;
+		return nullptr;
 	}
 
 	importer->Destroy();
@@ -23,11 +27,23 @@ ModelData* FbxLoader::Load(const char* path)
 	geometry_converter.Triangulate(scene, true);
 
 	// ÉÇÉfÉãÇÃì«Ç›çûÇ›
-	FbxNode* fbx_node = scene->GetRootNode();
-	model_data_ = nullptr;
-	model_data_ = new ModelData();
+	FbxMesh* mesh = scene->GetSrcObject<FbxMesh>();
 
-	ExpandNode(fbx_node);
+	if (mesh == nullptr) {
+		std::cerr << "failed load mesh:" << path << std::endl;
+		return nullptr;
+	}
+
+	LoadVertex(mesh);
+	LoadVertexIndex(mesh);
+	LoadNormal(mesh);
+	LoadUv(mesh);
+	LoadVertexColor(mesh);
+	//ReadMaterial(node);
+	//ExpandNode(fbx_node);
+
+	FbxSurfaceMaterial* material = scene->GetMaterial(0);
+	LoadMaterial(material);
 
 	manager->Destroy();
 
@@ -68,7 +84,6 @@ void FbxLoader::LoadVertex(FbxMesh* mesh)
 		vertex.color[2] = 1.0f;
 		vertex.color[3] = 0.0f;
 		model_data_->vertices.push_back(vertex);
-
 	}
 }
 
@@ -102,11 +117,10 @@ void FbxLoader::ReadAttributeType(FbxNode* node)
 		case fbxsdk::FbxNodeAttribute::eSkeleton:
 			break;
 		case fbxsdk::FbxNodeAttribute::eMesh:
-			LoadVertex(node->GetMesh());
+			//LoadVertex(node->GetMesh());
 			LoadVertexIndex(node->GetMesh());
 			LoadNormal(node->GetMesh());
 			LoadUv(node->GetMesh());
-			ReadMaterial(node);
 			LoadVertexColor(node->GetMesh());
 			break;
 		case fbxsdk::FbxNodeAttribute::eNurbs:
@@ -286,57 +300,51 @@ void FbxLoader::LoadUv(FbxMesh* mesh)
 	}
 }
 
-void FbxLoader::ReadMaterial(FbxNode* node)
+void FbxLoader::AddTexture(FbxProperty prop)
 {
-	int material_count = node->GetMaterialCount();
+	int layered_texture_count = prop.GetSrcObjectCount<FbxLayeredTexture>();
 
-	for (int i = 0; i < material_count; i++) {
-		FbxSurfaceMaterial* material = node->GetMaterial(i);
-		FbxProperty prop = material->FindProperty(FbxSurfaceMaterial::sDiffuse);
+	if (0 < layered_texture_count) {
+		int file_texture_count = prop.GetSrcObjectCount<FbxFileTexture>();
 
-		int layered_texture_count = prop.GetSrcObjectCount<FbxLayeredTexture>();
-
-		if (0 < layered_texture_count) {
-			int file_texture_count = prop.GetSrcObjectCount<FbxFileTexture>();
-
-			if (0 < file_texture_count) {
-				for (int j = 0; file_texture_count > j; j++) {
-					FbxFileTexture* texture = prop.GetSrcObject<FbxFileTexture>(j);
-					if (texture) {
-						std::string texture_path = texture->GetRelativeFileName();
-					}
-				}
-			}
-
-			for (int j = 0; layered_texture_count > j; j++) {
-				FbxLayeredTexture* layered_texture = prop.GetSrcObject<FbxLayeredTexture>(j);
-				int textureCount = layered_texture->GetSrcObjectCount<FbxFileTexture>();
-
-				for (int k = 0; textureCount > k; k++) {
-					FbxFileTexture* texture = prop.GetSrcObject<FbxFileTexture>(k);
-
-					if (texture) {
-						std::string texture_name = texture->GetRelativeFileName();
-						std::string uv_set_name = texture->UVSet.Get().Buffer();
-
-						model_data_->textures.push_back(texture_name);
-						model_data_->uv_set_name = uv_set_name;
-					}
+		if (0 < file_texture_count) {
+			for (int i = 0; file_texture_count > i; i++) {
+				FbxFileTexture* texture = prop.GetSrcObject<FbxFileTexture>(i);
+				if (texture) {
+					std::string texture_path = texture->GetRelativeFileName();
 				}
 			}
 		}
-		else {
-			int file_texture_count = prop.GetSrcObjectCount<FbxFileTexture>();
 
-			if (0 < file_texture_count) {
-				for (int j = 0; file_texture_count > j; j++) {
-					FbxFileTexture* texture = prop.GetSrcObject<FbxFileTexture>(j);
-					if (texture) {
-						std::string texture_name = texture->GetRelativeFileName();
-						std::string uv_set_name = texture->UVSet.Get().Buffer();
-						model_data_->uv_set_name = uv_set_name;
-						model_data_->textures.push_back(texture_name);
-					}
+		for (int i = 0; layered_texture_count > i; i++) {
+			FbxLayeredTexture* layered_texture = prop.GetSrcObject<FbxLayeredTexture>(i);
+			int textureCount = layered_texture->GetSrcObjectCount<FbxFileTexture>();
+
+			for (int j = 0; textureCount > j; j++) {
+				FbxFileTexture* texture = prop.GetSrcObject<FbxFileTexture>(j);
+
+				if (texture) {
+					std::string texture_name = texture->GetRelativeFileName();
+					std::string uv_set_name = texture->UVSet.Get().Buffer();
+
+					model_data_->textures.push_back(texture_name);
+					model_data_->uv_set_name = uv_set_name;
+				}
+			}
+		}
+	}
+	else {
+		int file_texture_count = prop.GetSrcObjectCount<FbxFileTexture>();
+
+		if (0 < file_texture_count) {
+			for (int i = 0; file_texture_count > i; i++) {
+				FbxFileTexture* texture = prop.GetSrcObject<FbxFileTexture>(i);
+				if (texture) {
+					std::string texture_name = texture->GetRelativeFileName();
+					std::string uv_set_name = texture->UVSet.Get().Buffer();
+					model_data_->uv_set_name = uv_set_name;
+					model_data_->textures.push_back(texture_name);
+					std::cout << texture_name;
 				}
 			}
 		}
@@ -389,5 +397,38 @@ void FbxLoader::LoadVertexColorByPolygonVertexAndIndexToDirect(FbxGeometryElemen
 		g = static_cast<GLfloat>(vertex_color->GetDirectArray().GetAt(i)[1]);
 		b = static_cast<GLfloat>(vertex_color->GetDirectArray().GetAt(i)[2]);
 		a = static_cast<GLfloat>(vertex_color->GetDirectArray().GetAt(i)[3]);
+	}
+}
+
+void FbxLoader::LoadMaterial(FbxSurfaceMaterial* mat)
+{
+	FbxProperty diffuse = mat->FindProperty(mat->sDiffuse);
+	if (diffuse.IsValid()) {
+		std::cout << mat->sDiffuse;
+		AddTexture(diffuse);
+	}
+
+	FbxProperty ambient = mat->FindProperty(mat->sAmbient);
+	if (ambient.IsValid()) {
+		std::cout << mat->sAmbient;
+		AddTexture(ambient);
+	}
+
+	FbxProperty emissive = mat->FindProperty(mat->sEmissive);
+	if (emissive.IsValid()) {
+		std::cout << mat->sEmissive;
+		AddTexture(emissive);
+	}
+
+	FbxProperty specular = mat->FindProperty(mat->sSpecular);
+	if (specular.IsValid()) {
+		std::cout << mat->sSpecular;
+		AddTexture(specular);
+	}
+
+	FbxProperty transparent_color = mat->FindProperty(mat->sTransparentColor);
+	if (transparent_color.IsValid()) {
+		std::cout << mat->sTransparentColor;
+		AddTexture(transparent_color);
 	}
 }
