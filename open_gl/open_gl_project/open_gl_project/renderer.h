@@ -5,6 +5,7 @@
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtc/quaternion.hpp"
 #include "transform.h"
+#include "material.h"
 
 class Renderer
 {

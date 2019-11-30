@@ -11,6 +11,6 @@ out vec4 vertex_color;
 void main()
 {
     vertex_uv = uv;
-	vertex_color = color;
+	vertex_color =color;
 	gl_Position = modelview * position;
 }

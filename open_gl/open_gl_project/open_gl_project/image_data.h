@@ -1,13 +1,12 @@
 #pragma once
-#include <glfw3.h>
+#include <glew.h>;
 #include <opencv2/opencv.hpp>
 
 struct ImageData
 {
-	cv::Mat mat;
+	cv::Mat mat;    // Matはスマートポインタ
 
 	float GetWidth() const;
 	float GetHeight() const;
-	GLuint id;
 };
 

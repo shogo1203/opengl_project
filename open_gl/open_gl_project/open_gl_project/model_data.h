@@ -4,23 +4,31 @@
 #include "vertex.h"
 #include <string>
 #include "image_data.h"
+#include "material.h"
+#include <opencv2/opencv.hpp>;
 
 struct Uv
 {
 	GLfloat point[2];
 };
 
-struct ModelData
+class ModelData
 {
+public:
+	void LoadTexture();    // opgnglで画像を表示できるようにする
+
 	//	頂点
-	std::vector<Vertex> vertices;
-	int vertices_count;
-	// 頂点インデックス
-	int indices_count;
-	std::vector<GLuint> indices;
+	std::vector<Vertex> vertices_;
+	int vertices_count_;
+	int indices_count_;
+	std::vector<GLuint> indices_;
+
 	// uv
-	std::string uv_set_name;
-	std::vector<Uv> uv_points;
-	std::vector<std::string> textures;
-	ImageData* image_data_;
+	std::string uv_set_name_;
+	std::vector<Uv> uv_points_;
+	std::vector<std::string> textures_;
+	std::vector<ImageData*> image_datas_;
+	std::vector<Material*> materials_;
+	GLuint texture_id_;
+	ImageData main_image_;   // materialに複数テクスチャがある場合に合成したテクスチャを表示する
 };

@@ -9,8 +9,8 @@ VertexObject::VertexObject()
 void VertexObject::Initialize(ModelData* model_data)
 {
 	model_data_ = model_data;
-	InitializeVertexBufferObject(model_data->vertices_count, model_data->vertices.data());
-	InitializeIndexBufferObject(model_data->indices_count, model_data->indices.data());
+	InitializeVertexBufferObject(model_data->vertices_count_, model_data->vertices_.data());
+	InitializeIndexBufferObject(model_data->indices_count_, model_data->indices_.data());
 }
 
 void VertexObject::Finalize()

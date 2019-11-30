@@ -4,8 +4,8 @@ OpenGLRenderer::OpenGLRenderer(const char* vert_path, const char* frag_path, Mod
 	program_(LoadProgram(vert_path, frag_path)),
 	model_view_uniform_location_(glGetUniformLocation(program_, "modelview")),
 	projection_uniform_location_(glGetUniformLocation(program_, "projection")),
-	model_data_(model_data),
-	texture_location_(glGetUniformLocation(program_, "texture_2d"))
+	model_data_(model_data)
+	// texture_location_(glGetUniformLocation(program_, "texture_2d"))
 {
 }
 
@@ -17,7 +17,7 @@ void OpenGLRenderer::Initialize()
 void OpenGLRenderer::Draw(glm::vec3 position, glm::vec3 scale, glm::quat rotation)
 {
 	glUseProgram(program_);	// シェーダプログラムの使用開始
-	//glBindTexture(GL_TEXTURE_2D, model_data_->image_data_->id);
+	glBindTexture(GL_TEXTURE_2D, model_data_->texture_id_);
 	const glm::mat4 translation_mat = glm::translate(glm::mat4(1.0f), position);
 	const glm::mat4 rotation_mat = glm::toMat4(rotation);
 	const glm::mat4 scale_mat = glm::scale(glm::mat4(1.0f), scale);
@@ -25,10 +25,10 @@ void OpenGLRenderer::Draw(glm::vec3 position, glm::vec3 scale, glm::quat rotatio
 
 	// uniform変数に値を設定する
 	glUniformMatrix4fv(model_view_uniform_location_, 1, GL_FALSE, &model_view_mat[0][0]);
-	glUniform1i(texture_location_, 0);
+	//glUniform1i(texture_location_, 0);
 	vertex_object_.Draw();
 
-	//glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	glUseProgram(0);    // シェーダプログラムの使用終了
 }
 
@@ -129,7 +129,6 @@ GLuint OpenGLRenderer::CreateProgram(const char* v_src, const char* f_src)
 	glBindAttribLocation(program, 3, "uv");
 
 	glBindFragDataLocation(program, 0, "fragment");
-	glBindFragDataLocation(program, 1, "texture");
 	glLinkProgram(program);
 
 	// 作成したプログラムオブジェクトを返す

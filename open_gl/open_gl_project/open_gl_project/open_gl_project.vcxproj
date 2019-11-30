@@ -149,6 +149,7 @@
     <ClCompile Include="image_data.cpp" />
     <ClCompile Include="image_loader.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="material.cpp" />
     <ClCompile Include="mesh_renderer.cpp" />
     <ClCompile Include="model_data.cpp" />
     <ClCompile Include="object.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="game_object.h" />
     <ClInclude Include="image_data.h" />
     <ClInclude Include="image_loader.h" />
+    <ClInclude Include="material.h" />
     <ClInclude Include="mesh_renderer.h" />
     <ClInclude Include="model_data.h" />
     <ClInclude Include="object.h" />

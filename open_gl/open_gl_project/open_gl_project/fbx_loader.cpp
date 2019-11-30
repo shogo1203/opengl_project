@@ -69,7 +69,7 @@ void FbxLoader::ExpandNode(FbxNode* node)
 void FbxLoader::LoadVertex(FbxMesh* mesh)
 {
 	int controlPointsCount = mesh->GetControlPointsCount();
-	model_data_->vertices_count += controlPointsCount;
+	model_data_->vertices_count_ += controlPointsCount;
 
 	for (int i = 0; i < controlPointsCount; i++)
 	{
@@ -83,7 +83,7 @@ void FbxLoader::LoadVertex(FbxMesh* mesh)
 		vertex.color[1] = 1.0f;
 		vertex.color[2] = 1.0f;
 		vertex.color[3] = 0.0f;
-		model_data_->vertices.push_back(vertex);
+		model_data_->vertices_.push_back(vertex);
 	}
 }
 
@@ -93,9 +93,9 @@ void FbxLoader::LoadVertexIndex(FbxMesh* mesh)
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			model_data_->indices_count++;
+			model_data_->indices_count_++;
 			int index = mesh->GetPolygonVertex(i, j);
-			model_data_->indices.push_back(index);
+			model_data_->indices_.push_back(index);
 		}
 	}
 }
@@ -212,9 +212,9 @@ void FbxLoader::LoadNormalByControllPointAndDirect(FbxGeometryElementNormal* nor
 {
 	for (int i = 0; i < normal->GetDirectArray().GetCount(); i++)
 	{
-		model_data_->vertices[i].normal[0] = static_cast<GLfloat>(normal->GetDirectArray().GetAt(i)[0]);
-		model_data_->vertices[i].normal[1] = static_cast<GLfloat>(normal->GetDirectArray().GetAt(i)[1]);
-		model_data_->vertices[i].normal[2] = static_cast<GLfloat>(normal->GetDirectArray().GetAt(i)[2]);
+		model_data_->vertices_[i].normal[0] = static_cast<GLfloat>(normal->GetDirectArray().GetAt(i)[0]);
+		model_data_->vertices_[i].normal[1] = static_cast<GLfloat>(normal->GetDirectArray().GetAt(i)[1]);
+		model_data_->vertices_[i].normal[2] = static_cast<GLfloat>(normal->GetDirectArray().GetAt(i)[2]);
 	}
 }
 
@@ -234,7 +234,7 @@ void FbxLoader::LoadUv(FbxMesh* mesh)
 			continue;
 		}
 
-		for (auto&& index : model_data_->indices) {
+		for (auto&& index : model_data_->indices_) {
 			FbxVector2 point = uv_element->GetDirectArray().GetAt(index);
 			//std::cout << point[0] << "," << point[1] << std::endl;
 		}
@@ -269,8 +269,8 @@ void FbxLoader::LoadUv(FbxMesh* mesh)
 					if (itr == indices.end())
 					{
 						indices.push_back(polygon_vertex_index);
-						model_data_->vertices[index].uv[0] = uv_point[0];
-						model_data_->vertices[index].uv[1] = uv_point[1];
+						model_data_->vertices_[index].uv[0] = uv_point[0];
+						model_data_->vertices_[index].uv[1] = uv_point[1];
 						index++;
 					}
 				}
@@ -291,7 +291,7 @@ void FbxLoader::LoadUv(FbxMesh* mesh)
 						Uv uv;
 						uv.point[0] = uv_point[0];
 						uv.point[1] = uv_point[1];
-						model_data_->uv_points.push_back(uv);
+						model_data_->uv_points_.push_back(uv);
 						polygon_counter++;
 					}
 				}
@@ -327,8 +327,8 @@ void FbxLoader::AddTexture(FbxProperty prop)
 					std::string texture_name = texture->GetRelativeFileName();
 					std::string uv_set_name = texture->UVSet.Get().Buffer();
 
-					model_data_->textures.push_back(texture_name);
-					model_data_->uv_set_name = uv_set_name;
+					model_data_->textures_.push_back(texture_name);
+					model_data_->uv_set_name_ = uv_set_name;
 				}
 			}
 		}
@@ -342,9 +342,8 @@ void FbxLoader::AddTexture(FbxProperty prop)
 				if (texture) {
 					std::string texture_name = texture->GetRelativeFileName();
 					std::string uv_set_name = texture->UVSet.Get().Buffer();
-					model_data_->uv_set_name = uv_set_name;
-					model_data_->textures.push_back(texture_name);
-					std::cout << texture_name;
+					model_data_->uv_set_name_ = uv_set_name;
+					model_data_->textures_.push_back(texture_name);
 				}
 			}
 		}
@@ -428,7 +427,7 @@ void FbxLoader::LoadMaterial(FbxSurfaceMaterial* mat)
 
 	FbxProperty transparent_color = mat->FindProperty(mat->sTransparentColor);
 	if (transparent_color.IsValid()) {
-		std::cout << mat->sTransparentColor;
-		AddTexture(transparent_color);
+		// std::cout << mat->sTransparentColor;
+		// AddTexture(transparent_color);
 	}
 }
