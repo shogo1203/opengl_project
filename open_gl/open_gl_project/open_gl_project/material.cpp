@@ -1,12 +1,12 @@
 #include "material.h"
 
-Material* Material::CreateMaterial(const char* texture_path)
+void Material::CreateTexture(const char* path)
 {
-	Material* material = new Material();
+	image_data_ = ImageLoader::Load(path);
+}
 
-	if (texture_path) {
-		material->image_data_ = ImageLoader::Load(texture_path);
-	}
-
-	return material;
+void Material::Finalize()
+{
+	delete image_data_;
+	delete this;
 }

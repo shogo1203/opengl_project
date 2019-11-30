@@ -15,7 +15,8 @@ struct Uv
 class ModelData
 {
 public:
-	void LoadTexture();    // opgnglで画像を表示できるようにする
+	void Initialize();    // modelDataの初期化処理
+	void Finalize();    // 解放処理
 
 	//	頂点
 	std::vector<Vertex> vertices_;
@@ -26,9 +27,11 @@ public:
 	// uv
 	std::string uv_set_name_;
 	std::vector<Uv> uv_points_;
-	std::vector<std::string> textures_;
-	std::vector<ImageData*> image_datas_;
+	std::vector<std::string> texture_names_;
 	std::vector<Material*> materials_;
 	GLuint texture_id_;
-	ImageData main_image_;   // materialに複数テクスチャがある場合に合成したテクスチャを表示する
+	ImageData* main_image_;   // materialに複数テクスチャがある場合に合成したテクスチャを表示する
+
+private:
+	void LoadTexture();    // opgnglで画像を表示できるようにする
 };

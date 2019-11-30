@@ -7,8 +7,8 @@
 class Material : public Object
 {
 public:
+	void CreateTexture(const char* path);
+	void Finalize();
 	ImageData* image_data_;
-
-	static Material* CreateMaterial(const char* texture_path);
 };
 

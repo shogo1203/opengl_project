@@ -327,7 +327,7 @@ void FbxLoader::AddTexture(FbxProperty prop)
 					std::string texture_name = texture->GetRelativeFileName();
 					std::string uv_set_name = texture->UVSet.Get().Buffer();
 
-					model_data_->textures_.push_back(texture_name);
+					model_data_->texture_names_.push_back(texture_name);
 					model_data_->uv_set_name_ = uv_set_name;
 				}
 			}
@@ -343,7 +343,7 @@ void FbxLoader::AddTexture(FbxProperty prop)
 					std::string texture_name = texture->GetRelativeFileName();
 					std::string uv_set_name = texture->UVSet.Get().Buffer();
 					model_data_->uv_set_name_ = uv_set_name;
-					model_data_->textures_.push_back(texture_name);
+					model_data_->texture_names_.push_back(texture_name);
 				}
 			}
 		}
