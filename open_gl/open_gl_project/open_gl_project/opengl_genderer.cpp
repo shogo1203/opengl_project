@@ -1,31 +1,24 @@
 #include "opengl_genderer.h"
 
-OpenGLRenderer::OpenGLRenderer(const char* vert_path, const char* frag_path, ModelData* model_data) :
-	program_(LoadProgram(vert_path, frag_path)),
-	model_view_uniform_location_(glGetUniformLocation(program_, "modelview")),
-	projection_uniform_location_(glGetUniformLocation(program_, "projection")),
-	model_data_(model_data)
-	// texture_location_(glGetUniformLocation(program_, "texture_2d"))
-{
-}
-
 void OpenGLRenderer::Initialize()
 {
+	model_view_uniform_location_ = glGetUniformLocation(program_, "modelview");
+	projection_uniform_location_ = glGetUniformLocation(program_, "projection");
+	texture_location_ = glGetUniformLocation(program_, "texture_2d");
 	vertex_object_.Initialize(model_data_);
 }
 
-void OpenGLRenderer::Draw(glm::vec3 position, glm::vec3 scale, glm::quat rotation)
+void OpenGLRenderer::Draw()
 {
 	glUseProgram(program_);	// シェーダプログラムの使用開始
 	glBindTexture(GL_TEXTURE_2D, model_data_->texture_id_);
-	const glm::mat4 translation_mat = glm::translate(glm::mat4(1.0f), position);
-	const glm::mat4 rotation_mat = glm::toMat4(rotation);
-	const glm::mat4 scale_mat = glm::scale(glm::mat4(1.0f), scale);
+	const glm::mat4 translation_mat = glm::translate(glm::mat4(1.0f), transform_->position_);
+	const glm::mat4 rotation_mat = glm::toMat4(transform_->GetRotation());
+	const glm::mat4 scale_mat = glm::scale(glm::mat4(1.0f), transform_->scale_);
 	const glm::mat4 model_view_mat(Camera::main_->Projection() * Camera::main_->LookAt() * translation_mat * rotation_mat * scale_mat);    // モデルビュー変換行列
 
 	// uniform変数に値を設定する
 	glUniformMatrix4fv(model_view_uniform_location_, 1, GL_FALSE, &model_view_mat[0][0]);
-	//glUniform1i(texture_location_, 0);
 	vertex_object_.Draw();
 
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -34,7 +27,25 @@ void OpenGLRenderer::Draw(glm::vec3 position, glm::vec3 scale, glm::quat rotatio
 
 void OpenGLRenderer::Finalize()
 {
+	model_data_->Finalize();
+	vertex_object_.Finalize();
 	delete this;
+}
+
+void OpenGLRenderer::SetTransform(Transform* transform)
+{
+	transform_ = transform;
+}
+
+void OpenGLRenderer::LoadShader(const char* vertex_path, const char* fragment_path)
+{
+	program_ = LoadProgram(vertex_path, fragment_path);
+}
+
+void OpenGLRenderer::LoadModel(const char* model_path)
+{
+	model_data_ = FbxLoader::Load(model_path);
+	model_data_->Initialize();
 }
 
 GLboolean OpenGLRenderer::PrintProgramInfoLog(GLuint program)

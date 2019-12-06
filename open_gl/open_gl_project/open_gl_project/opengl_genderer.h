@@ -12,16 +12,24 @@
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtx/quaternion.hpp"
 #include "vertex_object.h"
+#include "transform.h"
+#include "fbx_loader.h"
 
-class OpenGLRenderer
+class OpenGLRenderer : public Component
 {
 public:
-	OpenGLRenderer(const char* vert_path, const char* frag_path, ModelData* model_data);
-	void Initialize();
-	void Draw(glm::vec3 position, glm::vec3 scale, glm::quat rotation);
-	void Finalize();
+	void Initialize() override;
+	void Draw() override;
+	void Finalize() override;
+	void SetTransform(Transform* transform);    // Ç±ÇÍÇåƒÇŒÇ»Ç¢Ç∆çsÇØÇ»Ç¢
+	void LoadShader(const char* vertex_path, const char* fragment_path);
+	void LoadModel(const char* model_path);
+	ModelData* model_data_;
+
+protected:
 
 private:
+	Transform* transform_;
 	GLboolean PrintProgramInfoLog(GLuint program);
 	GLboolean PrintShaderInfoLog(GLuint shader, const char* str);
 	GLuint CreateProgram(const char* v_src, const char* f_src);
@@ -30,7 +38,6 @@ private:
 	GLuint program_;
 	GLuint model_view_uniform_location_;
 	GLuint projection_uniform_location_;
-	ModelData* model_data_;
 	VertexObject vertex_object_;
 	GLuint texture_location_;
 	GLuint uv_location_;

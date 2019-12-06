@@ -150,14 +150,12 @@
     <ClCompile Include="image_loader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="material.cpp" />
-    <ClCompile Include="mesh_renderer.cpp" />
     <ClCompile Include="model_data.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="opengl_genderer.cpp" />
-    <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="shape.cpp" />
     <ClCompile Include="singleton.cpp" />
     <ClCompile Include="TestGameObject.cpp" />
-    <ClCompile Include="test_component.cpp" />
     <ClCompile Include="time.cpp" />
     <ClCompile Include="transform.cpp" />
     <ClCompile Include="utility.cpp" />
@@ -177,24 +175,19 @@
     <ClInclude Include="image_data.h" />
     <ClInclude Include="image_loader.h" />
     <ClInclude Include="material.h" />
-    <ClInclude Include="mesh_renderer.h" />
     <ClInclude Include="model_data.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="opengl_genderer.h" />
-    <ClInclude Include="renderer.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="shape.h" />
     <ClInclude Include="singleton.h" />
     <ClInclude Include="TestGameObject.h" />
-    <ClInclude Include="test_component.h" />
     <ClInclude Include="time.h" />
     <ClInclude Include="transform.h" />
     <ClInclude Include="utility.h" />
     <ClInclude Include="vertex.h" />
     <ClInclude Include="vertex_object.h" />
     <ClInclude Include="window.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="open_gl_project.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

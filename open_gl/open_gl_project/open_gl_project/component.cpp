@@ -68,6 +68,7 @@ bool Component::GetInitialized() const
 
 void Component::Destroy()
 {
+	is_enable_ = false;
 	is_destroy_ = true;
 }
 

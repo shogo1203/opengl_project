@@ -1,7 +1,7 @@
 #pragma once
 #include "game_object.h"
-#include "mesh_renderer.h"
 #include "image_loader.h"
+#include "opengl_genderer.h"
 
 class TestGameObject : public GameObject
 {

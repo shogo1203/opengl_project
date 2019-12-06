@@ -7,13 +7,10 @@
 #include <memory>
 #include "window.h"
 #include "model_data.h"
-#include "renderer.h"
 #include "time.h"
 #include "camera.h"
 #include "transform.h"
 #include "component_manager.h"
-#include "test_component.h"
-#include "mesh_renderer.h"
 #include "TestGameObject.h"
 
 // ˜Z–Ê‘Ì‚Ì’¸“_‚ÌˆÊ’u

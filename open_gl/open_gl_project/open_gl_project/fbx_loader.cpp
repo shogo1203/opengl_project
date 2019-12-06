@@ -79,6 +79,11 @@ void FbxLoader::LoadVertex(FbxMesh* mesh)
 		vertex.position[1] = point[1];
 		vertex.position[2] = point[2];
 
+		vertex.color[0] = 1;
+		vertex.color[1] = 1;
+		vertex.color[2] = 1;
+		vertex.color[3] = 1;
+
 		model_data_->vertices_.push_back(vertex);
 	}
 }
@@ -113,7 +118,7 @@ void FbxLoader::ReadAttributeType(FbxNode* node)
 		case fbxsdk::FbxNodeAttribute::eSkeleton:
 			break;
 		case fbxsdk::FbxNodeAttribute::eMesh:
-			//LoadVertex(node->GetMesh());
+			LoadVertex(node->GetMesh());
 			LoadVertexIndex(node->GetMesh());
 			LoadNormal(node->GetMesh());
 			LoadUv(node->GetMesh());
