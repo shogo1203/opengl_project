@@ -52,9 +52,9 @@ private:
 template<class T>
 inline T* Component::Create(bool is_enable, GameObject* parent)
 {
-	if (typeid(T) == typeid(Component)) {
-		return nullptr;
-	}
+	//if (typeid(T) != typeid(Component)) {
+	//	return nullptr;
+	//}
 
 	T* instance = new T();
 

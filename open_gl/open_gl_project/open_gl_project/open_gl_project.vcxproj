@@ -153,6 +153,8 @@
     <ClCompile Include="model_data.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="opengl_genderer.cpp" />
+    <ClCompile Include="scene.cpp" />
+    <ClCompile Include="scene_manager.cpp" />
     <ClCompile Include="shape.cpp" />
     <ClCompile Include="singleton.cpp" />
     <ClCompile Include="TestGameObject.cpp" />
@@ -179,6 +181,8 @@
     <ClInclude Include="object.h" />
     <ClInclude Include="opengl_genderer.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="scene.h" />
+    <ClInclude Include="scene_manager.h" />
     <ClInclude Include="shape.h" />
     <ClInclude Include="singleton.h" />
     <ClInclude Include="TestGameObject.h" />
