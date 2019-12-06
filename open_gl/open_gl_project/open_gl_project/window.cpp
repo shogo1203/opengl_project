@@ -32,9 +32,9 @@ Window::Window(int width, int height, const char* title) :
 	Resize(window_, width, height);    // 開いたウィンドウの初期設定
 
 	//	カリング設定
-	//glFrontFace(GL_CCW);
-	//glCullFace(GL_BACK);
-	//glEnable(GL_CULL_FACE);
+	glFrontFace(GL_CCW);
+	glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE);
 
 	// デプスバッファの設定
 	glClearDepth(1.0f);

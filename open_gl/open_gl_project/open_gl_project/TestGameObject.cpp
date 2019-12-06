@@ -7,7 +7,7 @@ void TestGameObject::Update()
 
 void TestGameObject::Initialize()
 {
-	transform_.scale_ = glm::vec3(1.0f, 1.0f, 1.0f);
+	transform_.scale_ = glm::vec3(0.5f, 0.5f, 0.5f);
 	MeshRenderer* mesh = Component::Create<MeshRenderer>(true, this);
 	mesh->fbx_path_ = "cube.fbx";
 	mesh->vertex_shader_path_ = "point.vert";

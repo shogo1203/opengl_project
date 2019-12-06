@@ -19,6 +19,9 @@
     <Filter Include="ヘッダー ファイル\Component">
       <UniqueIdentifier>{3f36d2ba-e42d-4a09-912e-488f41503358}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Shader">
+      <UniqueIdentifier>{f9373d42-f10a-43cd-bb8a-d17afb0dbae7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -89,11 +92,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="point.vert">
-      <Filter>ソース ファイル</Filter>
-    </None>
     <None Include="point.frag">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Shader</Filter>
+    </None>
+    <None Include="point.vert">
+      <Filter>ソース ファイル\Shader</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -79,10 +79,6 @@ void FbxLoader::LoadVertex(FbxMesh* mesh)
 		vertex.position[1] = point[1];
 		vertex.position[2] = point[2];
 
-		vertex.color[0] = 1.0f;
-		vertex.color[1] = 1.0f;
-		vertex.color[2] = 1.0f;
-		vertex.color[3] = 0.0f;
 		model_data_->vertices_.push_back(vertex);
 	}
 }
@@ -220,7 +216,6 @@ void FbxLoader::LoadNormalByControllPointAndDirect(FbxGeometryElementNormal* nor
 
 void FbxLoader::LoadUv(FbxMesh* mesh)
 {
-	//std::cout << mesh->GetAllChannelUV(0).Size();
 	FbxStringList uv_set_names;
 	mesh->GetUVSetNames(uv_set_names);
 
@@ -236,7 +231,6 @@ void FbxLoader::LoadUv(FbxMesh* mesh)
 
 		for (auto&& index : model_data_->indices_) {
 			FbxVector2 point = uv_element->GetDirectArray().GetAt(index);
-			//std::cout << point[0] << "," << point[1] << std::endl;
 		}
 
 		FbxGeometryElement::EMappingMode mapping_mode = uv_element->GetMappingMode();
