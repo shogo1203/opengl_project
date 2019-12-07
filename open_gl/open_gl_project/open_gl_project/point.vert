@@ -1,4 +1,4 @@
-#version 460 core
+#version 450 core
 uniform mat4 modelview;
 in vec4 position;
 in vec4 color;

@@ -3,7 +3,6 @@
 void TestGameObject::Update()
 {
 	transform_.Rotate(0, 0.01f, 0);
-	Destroy();
 }
 
 void TestGameObject::Initialize()

@@ -12,36 +12,7 @@
 #include "transform.h"
 #include "component_manager.h"
 #include "TestGameObject.h"
-
-// 六面体の頂点の位置
-constexpr Vertex cube_vertex[] =
-{
-	{ -1.0f, -1.0f, -1.0f},  // (0)   
-{ -1.0f, -1.0f,  1.0f },  // (1)   
-{ -1.0f,  1.0f,  1.0f },  // (2)  
-{ -1.0f,  1.0f, -1.0f },  // (3)   
-{  1.0f,  1.0f, -1.0f },  // (4)  
-{  1.0f, -1.0f, -1.0f },  // (5)  
-{  1.0f, -1.0f,  1.0f },  // (6)  
-{  1.0f,  1.0f,  1.0f }   // (7) 
-};
-
-// 六面体の稜線の両端点のインデックス
-constexpr GLuint wireCubeIndex[] =
-{
-	1, 0, // (a) 
-	2, 7, // (b)  
-	3, 0, // (c)  
-	4, 7, // (d)  
-	5, 0, // (e)  
-	6, 7, // (f)  
-	1, 2, // (g)  
-	2, 3, // (h) 
-	3, 4, // (i)   
-	4, 5, // (j)   
-	5, 6, // (k) 
-	6, 1  // (l) 
-};
+#include "scene_manager.h"
 
 int main() {
 
@@ -61,18 +32,15 @@ int main() {
 
 	ComponentManager::GetInstance().Initialize();
 	Window window;
-
-	// カメラの設定
-	Camera* camera = Component::Create<Camera>();
-	camera->transform_.position_ = glm::vec3(4.0f, 5.0f, 15.0f);
-	camera->transform_.Rotate(0, 180, 0);
-	camera->window_ = &window;
+	SceneManager::GetInstance().Initialize();
+	Camera::main_->window_ = &window;
 
 	GameObject* obje = Component::Create<TestGameObject>();
 
 	while (window.IsOpenWindow()) {
 
 		glfwPollEvents();
+		SceneManager::GetInstance().Update();
 		ComponentManager::GetInstance().Update();
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		// ウィンドウを削除する
@@ -83,6 +51,7 @@ int main() {
 	}
 
 	ComponentManager::GetInstance().Finalize();
+	SceneManager::GetInstance().Finalize();
 
 	return 0;
 }

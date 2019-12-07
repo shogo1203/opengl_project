@@ -11,6 +11,7 @@ void Component::Update()
 
 void Component::Finalize()
 {
+	delete this;
 }
 
 void Component::OnEnable()

@@ -1,4 +1,4 @@
-#version 460 core
+#version 450 core
 in vec4 vertex_color;
 in vec2 vertex_uv;
 uniform sampler2D texture_2d;

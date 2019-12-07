@@ -29,7 +29,7 @@ void OpenGLRenderer::Finalize()
 {
 	model_data_->Finalize();
 	vertex_object_.Finalize();
-	delete this;
+	Component::Finalize();
 }
 
 void OpenGLRenderer::SetTransform(Transform* transform)
