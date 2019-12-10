@@ -8,11 +8,6 @@ class Singleton :
 public:
 	static T& GetInstance();
 	virtual void Finalize();
-
-protected:
-	virtual ~Singleton() {}
-	Singleton() {}
-
 private:
 	static inline T* instance_ = nullptr;
 
@@ -24,7 +19,7 @@ template<class T>
 inline T& Singleton<T>::GetInstance()
 {
 	if (instance_ == nullptr) {
-		instance_ = new T();
+		instance_ = Object::Create<T>();
 	}
 
 	return *instance_;

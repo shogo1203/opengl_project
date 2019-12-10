@@ -6,7 +6,6 @@
 class VertexObject : public Object
 {
 public:
-	VertexObject();
 	void Initialize(ModelAsset* model_data);
 	void Finalize();
 	void InitializeVertexBufferObject(GLsizei vertex_count, const Vertex* vertex);
@@ -14,8 +13,6 @@ public:
 	void Draw() const;
 
 private:
-	VertexObject(const VertexObject& vertex_object);
-	VertexObject& operator=(const VertexObject& vertex_object) { }
 	GLuint vertex_array_object_;
 	GLuint vertex_buffer_object_;
 	GLuint index_buffer_object_;

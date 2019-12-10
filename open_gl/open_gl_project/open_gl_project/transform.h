@@ -8,8 +8,6 @@
 class Transform : Object
 {
 public:
-	Transform();
-	Transform(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation);
 	void Rotate(float x, float y, float z);
 	void Rotate(glm::vec3 euler_angles);
 	void SetRotation(float x, float y, float z);

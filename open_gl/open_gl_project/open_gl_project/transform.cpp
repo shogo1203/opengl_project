@@ -1,19 +1,5 @@
 #include "transform.h"
 
-Transform::Transform() :
-	Transform(glm::vec3(), glm::vec3(5, 5, 5), glm::vec3(0))
-{
-
-}
-
-Transform::Transform(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) :
-	position_(position),
-	scale_(scale),
-	rotation_(rotation)
-{
-
-}
-
 void Transform::Rotate(float x, float y, float z)
 {
 	rotation_ *= glm::quat(glm::vec3(x, y, z));

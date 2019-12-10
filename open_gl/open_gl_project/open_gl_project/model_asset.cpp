@@ -49,7 +49,7 @@ void ModelAsset::LoadTexture()
 void ModelAsset::Initialize()
 {
 	for (auto&& path : texture_names_) {
-		Material* material = new Material();
+		Material* material = Object::Create<Material>();
 		material->CreateTexture(path.c_str());
 		materials_.push_back(material);
 	}

@@ -1,13 +1,9 @@
 #include "vertex_object.h"
 
-VertexObject::VertexObject()
+void VertexObject::Initialize(ModelAsset* model_data)
 {
 	glGenVertexArrays(1, &vertex_array_object_);
 	glBindVertexArray(vertex_array_object_);
-}
-
-void VertexObject::Initialize(ModelAsset* model_data)
-{
 	model_data_ = model_data;
 	InitializeVertexBufferObject(model_data->vertices_count_, model_data->vertices_);
 	InitializeIndexBufferObject(model_data->indices_count_, model_data->indices_);

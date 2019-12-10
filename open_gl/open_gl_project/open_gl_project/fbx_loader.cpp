@@ -4,7 +4,7 @@
 ModelAsset* FbxLoader::Load(const char* path)
 {
 	model_data_ = nullptr;
-	model_data_ = new ModelAsset();
+	model_data_ = Object::Create<ModelAsset>();
 
 	// fbx sdk‰Šú‰»ˆ—
 	FbxManager* manager = FbxManager::Create();

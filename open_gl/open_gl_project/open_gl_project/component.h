@@ -30,7 +30,6 @@ public:
 	bool is_enable_;
 	template <class T>
 	static T* Create(bool is_enable = true, GameObject* parent = nullptr);
-	Component();
 	GameObject* parent_;
 	ComponentState GetComponentState();
 	void SetComponentState(ComponentState component_state);
@@ -41,6 +40,7 @@ public:
 
 protected:
 	static void AddComponent(Component* component);
+	Component();
 	virtual ~Component();
 
 private:
@@ -52,17 +52,20 @@ private:
 template<class T>
 inline T* Component::Create(bool is_enable, GameObject* parent)
 {
-	//if (typeid(T) != typeid(Component)) {
-	//	return nullptr;
-	//}
+	T* t = Object::Create<T>();
+	Component* c = dynamic_cast<Component*>(t);
 
-	T* instance = new T();
-
-	if (parent) {
-		instance->parent_ = parent;
+	if (!c) {
+		std::cerr << "failed create component" << std::endl;
+		return nullptr;
 	}
-	instance->is_enable_ = is_enable;
 
-	AddComponent(instance);
-	return instance;
+	c->is_enable_ = is_enable;
+	c->parent_ = parent;
+	c->component_state_ = ComponentState::None;
+	c->is_initialized_ = false;
+	c->is_destroy_ = false;
+
+	AddComponent(t);
+	return t;
 }

@@ -10,7 +10,7 @@ class Object
 {
 public:
 	template <class T>
-	static T Create();
+	static T* Create();
 	virtual std::string ToString() const;
 	std::string GetInstanceId() const;
 
@@ -20,7 +20,21 @@ private:
 };
 
 template<class T>
-inline T Object::Create()
+inline T* Object::Create()
 {
-	return T();
+	class Clone : public T {
+	public:
+		Clone() : T() { }
+	};
+
+	Clone* t = new Clone();
+
+	Object* o = dynamic_cast<Object*>(t);
+
+	if (!t) {
+		std::cerr << "failed create object";
+		return nullptr;
+	}
+
+	return t;
 }

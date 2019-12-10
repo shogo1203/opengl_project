@@ -38,15 +38,6 @@ void Component::Draw()
 {
 }
 
-Component::Component() :
-	is_enable_(true),
-	parent_(nullptr),
-	component_state_(ComponentState::None),
-	is_initialized_(false),
-	is_destroy_(false)
-{
-}
-
 ComponentState Component::GetComponentState()
 {
 	return component_state_;
