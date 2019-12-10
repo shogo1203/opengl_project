@@ -6,7 +6,7 @@
 #include <fstream>
 #include <memory>
 #include "window.h"
-#include "model_data.h"
+#include "model_asset.h"
 #include "time.h"
 #include "camera.h"
 #include "transform.h"

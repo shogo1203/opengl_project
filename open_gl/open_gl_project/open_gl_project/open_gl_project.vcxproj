@@ -141,16 +141,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="asset.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="component.cpp" />
     <ClCompile Include="component_manager.cpp" />
     <ClCompile Include="fbx_loader.cpp" />
     <ClCompile Include="game_object.cpp" />
-    <ClCompile Include="image_data.cpp" />
+    <ClCompile Include="texture_asset.cpp" />
     <ClCompile Include="image_loader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="material.cpp" />
-    <ClCompile Include="model_data.cpp" />
+    <ClCompile Include="model_asset.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="opengl_genderer.cpp" />
     <ClCompile Include="scene.cpp" />
@@ -169,18 +170,18 @@
     <None Include="point.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="asset.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="component_manager.h" />
     <ClInclude Include="fbx_loader.h" />
     <ClInclude Include="game_object.h" />
-    <ClInclude Include="image_data.h" />
+    <ClInclude Include="texture_asset.h" />
     <ClInclude Include="image_loader.h" />
     <ClInclude Include="material.h" />
-    <ClInclude Include="model_data.h" />
+    <ClInclude Include="model_asset.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="opengl_genderer.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="scene_manager.h" />
     <ClInclude Include="shape.h" />

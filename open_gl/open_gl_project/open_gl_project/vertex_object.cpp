@@ -6,11 +6,11 @@ VertexObject::VertexObject()
 	glBindVertexArray(vertex_array_object_);
 }
 
-void VertexObject::Initialize(ModelData* model_data)
+void VertexObject::Initialize(ModelAsset* model_data)
 {
 	model_data_ = model_data;
-	InitializeVertexBufferObject(model_data->vertices_count_, model_data->vertices_.data());
-	InitializeIndexBufferObject(model_data->indices_count_, model_data->indices_.data());
+	InitializeVertexBufferObject(model_data->vertices_count_, model_data->vertices_);
+	InitializeIndexBufferObject(model_data->indices_count_, model_data->indices_);
 }
 
 void VertexObject::Finalize()

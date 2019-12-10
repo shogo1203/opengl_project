@@ -24,7 +24,7 @@ public:
 	void SetTransform(Transform* transform);    // ‚±‚ê‚ğŒÄ‚Î‚È‚¢‚Æs‚¯‚È‚¢
 	void LoadShader(const char* vertex_path, const char* fragment_path);
 	void LoadModel(const char* model_path);
-	ModelData* model_data_;
+	ModelAsset* model_data_;
 
 protected:
 

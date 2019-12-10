@@ -1,9 +1,9 @@
-#include "model_data.h"
+#include "model_asset.h"
 
-void ModelData::LoadTexture()
+void ModelAsset::LoadTexture()
 {
 	cv::Mat mat;
-	main_image_ = new ImageData();
+	main_image_ = new TextureAsset();
 
 	// ƒ}ƒeƒŠƒAƒ‹‚É•¡”
 	if (materials_.size() > 1)
@@ -46,7 +46,7 @@ void ModelData::LoadTexture()
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void ModelData::Initialize()
+void ModelAsset::Initialize()
 {
 	for (auto&& path : texture_names_) {
 		Material* material = new Material();
@@ -57,7 +57,7 @@ void ModelData::Initialize()
 	LoadTexture();
 }
 
-void ModelData::Finalize()
+void ModelAsset::Finalize()
 {
 	delete main_image_;
 

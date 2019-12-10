@@ -2,7 +2,7 @@
 #include <glew.h>;
 #include <opencv2/opencv.hpp>
 
-struct ImageData
+struct TextureAsset
 {
 	cv::Mat mat;    // Matはスマートポインタ
 

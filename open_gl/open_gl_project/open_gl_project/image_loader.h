@@ -2,12 +2,12 @@
 #include <glew.h>
 #include <stdio.h>
 #include <iostream>
-#include "image_data.h"
+#include "texture_asset.h"
 #include <opencv2/opencv.hpp>
 
 class ImageLoader
 {
 public:
-	static ImageData* Load(const char* path);
+	static TextureAsset* Load(const char* path);
 private:
 };

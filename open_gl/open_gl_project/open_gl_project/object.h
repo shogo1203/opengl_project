@@ -9,10 +9,18 @@
 class Object
 {
 public:
-	Object();
+	template <class T>
+	static T Create();
 	virtual std::string ToString() const;
 	std::string GetInstanceId() const;
 
 private:
+	Object();
 	std::string instance_id_;
 };
+
+template<class T>
+inline T Object::Create()
+{
+	return T();
+}

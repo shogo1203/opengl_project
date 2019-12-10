@@ -1,10 +1,10 @@
 #include "fbx_loader.h"
 #define NAME_OF(VariableName) # VariableName
 
-ModelData* FbxLoader::Load(const char* path)
+ModelAsset* FbxLoader::Load(const char* path)
 {
 	model_data_ = nullptr;
-	model_data_ = new ModelData();
+	model_data_ = new ModelAsset();
 
 	// fbx sdk‰Šú‰»ˆ—
 	FbxManager* manager = FbxManager::Create();
@@ -39,37 +39,23 @@ ModelData* FbxLoader::Load(const char* path)
 	LoadNormal(mesh);
 	LoadUv(mesh);
 	LoadVertexColor(mesh);
-	//ReadMaterial(node);
-	//ExpandNode(fbx_node);
 
 	FbxSurfaceMaterial* material = scene->GetMaterial(0);
-	LoadMaterial(material);
+
+	if (material) {
+		LoadMaterial(material);
+	}
 
 	manager->Destroy();
 
 	return model_data_;
 }
 
-void FbxLoader::ExpandNode(FbxNode* node)
-{
-
-	ReadAttributeType(node);
-
-	if (node->GetChildCount() < 1)
-	{
-		return;
-	}
-
-	for (int i = 0; i < node->GetChildCount(); i++)
-	{
-		ExpandNode(node->GetChild(i));
-	}
-}
-
 void FbxLoader::LoadVertex(FbxMesh* mesh)
 {
 	int controlPointsCount = mesh->GetControlPointsCount();
-	model_data_->vertices_count_ += controlPointsCount;
+	model_data_->vertices_count_ = controlPointsCount;
+	model_data_->vertices_ = new Vertex[controlPointsCount];
 
 	for (int i = 0; i < controlPointsCount; i++)
 	{
@@ -84,89 +70,20 @@ void FbxLoader::LoadVertex(FbxMesh* mesh)
 		vertex.color[2] = 1;
 		vertex.color[3] = 1;
 
-		model_data_->vertices_.push_back(vertex);
+		model_data_->vertices_[i] = vertex;
 	}
 }
 
 void FbxLoader::LoadVertexIndex(FbxMesh* mesh)
 {
-	for (int i = 0; i < mesh->GetPolygonCount(); i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			model_data_->indices_count_++;
-			int index = mesh->GetPolygonVertex(i, j);
-			model_data_->indices_.push_back(index);
-		}
+	int size = mesh->GetPolygonVertexCount();
+	std::cout << size << std::endl;
+	model_data_->indices_count_ = size;
+	model_data_->indices_ = new GLuint[size];
+
+	for (int i = 0; i < size; i++) {
+		model_data_->indices_[i] = mesh->GetPolygonVertices()[i];
 	}
-}
-
-void FbxLoader::ReadAttributeType(FbxNode* node)
-{
-	for (int i = 0; i < node->GetNodeAttributeCount(); i++)
-	{
-		FbxNodeAttribute::EType type = node->GetNodeAttributeByIndex(i)->GetAttributeType();
-
-		switch (type)
-		{
-		case fbxsdk::FbxNodeAttribute::eUnknown:
-			break;
-		case fbxsdk::FbxNodeAttribute::eNull:
-			break;
-		case fbxsdk::FbxNodeAttribute::eMarker:
-			break;
-		case fbxsdk::FbxNodeAttribute::eSkeleton:
-			break;
-		case fbxsdk::FbxNodeAttribute::eMesh:
-			LoadVertex(node->GetMesh());
-			LoadVertexIndex(node->GetMesh());
-			LoadNormal(node->GetMesh());
-			LoadUv(node->GetMesh());
-			LoadVertexColor(node->GetMesh());
-			break;
-		case fbxsdk::FbxNodeAttribute::eNurbs:
-			break;
-		case fbxsdk::FbxNodeAttribute::ePatch:
-			break;
-		case fbxsdk::FbxNodeAttribute::eCamera:
-			break;
-		case fbxsdk::FbxNodeAttribute::eCameraStereo:
-			break;
-		case fbxsdk::FbxNodeAttribute::eCameraSwitcher:
-			break;
-		case fbxsdk::FbxNodeAttribute::eLight:
-			break;
-		case fbxsdk::FbxNodeAttribute::eOpticalReference:
-			break;
-		case fbxsdk::FbxNodeAttribute::eOpticalMarker:
-			break;
-		case fbxsdk::FbxNodeAttribute::eNurbsCurve:
-			break;
-		case fbxsdk::FbxNodeAttribute::eTrimNurbsSurface:
-			break;
-		case fbxsdk::FbxNodeAttribute::eBoundary:
-			break;
-		case fbxsdk::FbxNodeAttribute::eNurbsSurface:
-			break;
-		case fbxsdk::FbxNodeAttribute::eShape:
-			break;
-		case fbxsdk::FbxNodeAttribute::eLODGroup:
-			break;
-		case fbxsdk::FbxNodeAttribute::eSubDiv:
-			break;
-		case fbxsdk::FbxNodeAttribute::eCachedEffect:
-			break;
-		case fbxsdk::FbxNodeAttribute::eLine:
-			break;
-		}
-	}
-}
-
-void FbxLoader::PrintVector3(float x, float y, float z)
-{
-	std::cout << "x" << x << std::endl;
-	std::cout << "y" << y << std::endl;
-	std::cout << "z" << z << std::endl;
 }
 
 void FbxLoader::LoadNormal(FbxMesh* mesh)
@@ -234,8 +151,8 @@ void FbxLoader::LoadUv(FbxMesh* mesh)
 			continue;
 		}
 
-		for (auto&& index : model_data_->indices_) {
-			FbxVector2 point = uv_element->GetDirectArray().GetAt(index);
+		for (int j = 0; j < (sizeof(model_data_->indices_) / sizeof(GLuint)); j++) {
+			FbxVector2 point = uv_element->GetDirectArray().GetAt(model_data_->indices_[i]);
 		}
 
 		FbxGeometryElement::EMappingMode mapping_mode = uv_element->GetMappingMode();

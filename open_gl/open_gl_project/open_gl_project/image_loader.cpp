@@ -1,8 +1,8 @@
 #include "image_loader.h"
 
-ImageData* ImageLoader::Load(const char* path)
+TextureAsset* ImageLoader::Load(const char* path)
 {
-	ImageData* image_data = new ImageData();
+	TextureAsset* image_data = new TextureAsset();
 
 	// テクスチャの読み込み
 	image_data->mat = cv::imread(path, cv::IMREAD_UNCHANGED);
